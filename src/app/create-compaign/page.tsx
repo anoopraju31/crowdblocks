@@ -1,5 +1,5 @@
 import React from 'react'
-import { FormField } from '../components'
+import { Button, FormField } from '../components'
 
 const CreateCampaignPage = () => {
 	return (
@@ -64,6 +64,9 @@ const CreateCampaignPage = () => {
 						inputType='url'
 						value=''
 					/>
+
+					{/* Submit Button */}
+					<Button />
 				</form>
 			</div>
 		</main>
