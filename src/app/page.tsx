@@ -10,7 +10,7 @@ export default function Home() {
 			</h1>
 
 			{/* All Campaigns */}
-			<section className='flex flex-wrap mt-[20px] gap-[26px]'>
+			<section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[20px] gap-[26px]'>
 				<CampaignCard />
 				<CampaignCard />
 				<CampaignCard />

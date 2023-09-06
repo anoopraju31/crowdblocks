@@ -5,7 +5,7 @@ import { BsFolder } from 'react-icons/bs'
 const CampaignCard = () => {
 	return (
 		<div
-			className='sm:w-[288px] w-full rounded-[15px] bg-[#1c1c24] cursor-pointer'
+			className='w-full rounded-[15px] bg-[#1c1c24] cursor-pointer'
 			// onClick={handleClick}
 		>
 			<Image
