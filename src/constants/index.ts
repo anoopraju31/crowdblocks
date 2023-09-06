@@ -18,7 +18,7 @@ export const navlinks = [
 	{
 		name: 'campaign',
 		icon: MdCreate,
-		link: '/create-compaign',
+		link: '/create-campaign',
 	},
 	{
 		name: 'profile',

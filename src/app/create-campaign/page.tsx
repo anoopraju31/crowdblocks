@@ -20,7 +20,7 @@ const CreateCampaignPage = () => {
 	}
 
 	return (
-		<main className='w-full min-h-screen py-10 bg-[#1c1c24] '>
+		<main className='w-full min-h-screen py-4  bg-[#13131a]'>
 			<div className='max-w-4xl mx-auto flex justify-center items-center flex-col sm:p-10 p-4'>
 				{/* Heading */}
 				<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]'>
