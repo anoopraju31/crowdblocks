@@ -2,8 +2,17 @@
 import React, { useState } from 'react'
 import { Button, FormField } from '../components'
 
+type Form = {
+	name: string
+	title: string
+	description: string
+	target: string
+	deadline: string
+	image: string
+}
+
 const CreateCampaignPage = () => {
-	const [form, setForm] = useState({
+	const [form, setForm] = useState<Form>({
 		name: '',
 		title: '',
 		description: '',

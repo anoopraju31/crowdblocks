@@ -8,3 +8,26 @@ input[type='date']::-webkit-calendar-picker-indicator {
 	cursor: pointer;
 	filter: invert(0.8);
 }
+
+input[type='file']::file-selector-button {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	padding: 15px 16px;
+	cursor: pointer;
+	background-color: #808191;
+	border: 1px solid rgba(0, 0, 0, 0.16);
+	box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.05);
+	margin-right: 16px;
+	transition: background-color 200ms;
+}
+
+input[type='file']:focus::file-selector-button,
+input[type='file']:active::file-selector-button {
+	background-color: rgb(34 197 94);
+}
+
+input[type='file'] {
+	padding-top: 0;
+	padding-left: 0;
+	padding-bottom: 0;
+}
