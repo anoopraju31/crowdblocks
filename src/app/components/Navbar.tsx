@@ -12,7 +12,7 @@ const Navbar = () => {
 	const pathname = usePathname()
 
 	return (
-		<header className='pt-4 bg-[#13131a]'>
+		<header className=' bg-[#13131a]'>
 			{/* Large screen Navbar */}
 			<div className='flex md:flex-row flex-col-reverse justify-between gap-6'>
 				<div className='lg:flex-1 flex flex-row s-full md:max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]'>
