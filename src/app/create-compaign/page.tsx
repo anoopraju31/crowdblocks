@@ -12,6 +12,13 @@ const CreateCampaignPage = () => {
 		image: '',
 	})
 
+	const handleFormFieldChange = (
+		fieldName: string,
+		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
+	) => {
+		setForm({ ...form, [fieldName]: e.target.value })
+	}
+
 	return (
 		<main className='w-full bg-[#1c1c24] '>
 			<div className='max-w-4xl mx-auto flex justify-center items-center flex-col sm:p-10 p-4'>
@@ -30,6 +37,7 @@ const CreateCampaignPage = () => {
 							placeholder='John Doe'
 							inputType='text'
 							value={form.name}
+							handleChange={(e) => handleFormFieldChange('name', e)}
 						/>
 						{/* Title */}
 
@@ -38,6 +46,7 @@ const CreateCampaignPage = () => {
 							placeholder='Write a title'
 							inputType='text'
 							value={form.title}
+							handleChange={(e) => handleFormFieldChange('title', e)}
 						/>
 					</div>
 
@@ -47,6 +56,7 @@ const CreateCampaignPage = () => {
 						placeholder='Write your story'
 						isTextArea
 						value={form.description}
+						handleChange={(e) => handleFormFieldChange('description', e)}
 					/>
 
 					<div className='flex flex-wrap gap-[40px]'>
@@ -56,6 +66,7 @@ const CreateCampaignPage = () => {
 							placeholder='ETH 0.50'
 							inputType='text'
 							value={form.target}
+							handleChange={(e) => handleFormFieldChange('target', e)}
 						/>
 
 						{/* End Date */}
@@ -64,6 +75,7 @@ const CreateCampaignPage = () => {
 							placeholder='End Date'
 							inputType='date'
 							value={form.deadline}
+							handleChange={(e) => handleFormFieldChange('deadline', e)}
 						/>
 					</div>
 
@@ -72,7 +84,8 @@ const CreateCampaignPage = () => {
 						labelName='Campaign image *'
 						placeholder='Place image URL of your campaign'
 						inputType='url'
-						value=''
+						value={form.image}
+						handleChange={(e) => handleFormFieldChange('image', e)}
 					/>
 
 					{/* Submit Button */}
@@ -85,6 +98,8 @@ const CreateCampaignPage = () => {
 					</div>
 				</form>
 			</div>
+
+			<div className='text-green-500'>{JSON.stringify(form)}</div>
 		</main>
 	)
 }
