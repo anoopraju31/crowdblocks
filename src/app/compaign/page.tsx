@@ -6,6 +6,7 @@ const CompaignDetailsPage = () => {
 	return (
 		<main className='w-full min-h-screen py-10 bg-[#1c1c24]'>
 			<div className='w-full max-w-7xl mx-auto flex md:flex-row flex-col mt-10 gap-[30px]'>
+				{/* Images */}
 				<div className='flex-1 flex-col'>
 					<Image
 						src='/premium_photo.avif'
@@ -23,7 +24,7 @@ const CompaignDetailsPage = () => {
 							}}></div>
 					</div>
 				</div>
-
+				{/* Stats */}
 				<div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'></div>
 			</div>
 		</main>
