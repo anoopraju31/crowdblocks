@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { Footer, Navbar, SideBar } from './components'
+import Providers from './providers'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,18 +19,20 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={inter.className}>
-				<div className='relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-row'>
-					<div className='sm:flex hidden mr-10 relative'>
-						<SideBar />
-					</div>
+				<Providers>
+					<div className='relative sm:-8 p-4 bg-[#13131a] min-h-screen flex flex-row'>
+						<div className='sm:flex hidden mr-10 relative'>
+							<SideBar />
+						</div>
 
-					<div className='flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5'>
-						<Navbar />
+						<div className='flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5'>
+							<Navbar />
 
-						{children}
-						<Footer />
+							{children}
+							<Footer />
+						</div>
 					</div>
-				</div>
+				</Providers>
 			</body>
 		</html>
 	)
