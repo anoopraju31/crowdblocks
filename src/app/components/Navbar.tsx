@@ -14,7 +14,7 @@ const Navbar = () => {
 	return (
 		<header className='pt-4 bg-[#13131a]'>
 			{/* Large screen Navbar */}
-			<div className='w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-0 mx-auto flex md:flex-row flex-col-reverse justify-between gap-6'>
+			<div className='flex md:flex-row flex-col-reverse justify-between gap-6'>
 				<div className='lg:flex-1 flex flex-row s-full md:max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]'>
 					<input
 						type='text'
