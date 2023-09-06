@@ -20,10 +20,10 @@ const CreateCampaignPage = () => {
 	}
 
 	return (
-		<main className='w-full bg-[#1c1c24] '>
+		<main className='w-full min-h-screen py-10 bg-[#1c1c24] '>
 			<div className='max-w-4xl mx-auto flex justify-center items-center flex-col sm:p-10 p-4'>
 				{/* Heading */}
-				<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] bg-[#3a3a43] rounded-[10px]'>
+				<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]'>
 					<h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'>
 						Start a Campaign
 					</h1>
@@ -98,8 +98,6 @@ const CreateCampaignPage = () => {
 					</div>
 				</form>
 			</div>
-
-			<div className='text-green-500'>{JSON.stringify(form)}</div>
 		</main>
 	)
 }
