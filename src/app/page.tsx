@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import { CampaignCard } from './components'
 
 export default function Home() {
 	return (
@@ -9,7 +10,22 @@ export default function Home() {
 			</h1>
 
 			{/* All Campaigns */}
-			<section className='flex flex-wrap mt-[20px] gap-[26px]'></section>
+			<section className='flex flex-wrap mt-[20px] gap-[26px]'>
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+				<CampaignCard />
+			</section>
 		</main>
 	)
 }
