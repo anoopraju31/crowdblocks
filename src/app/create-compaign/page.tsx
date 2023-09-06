@@ -13,7 +13,12 @@ const CreateCampaignPage = () => {
 			<form className='w-full mt-[65px] flex flex-col gap-[30px]'>
 				<div className='flex flex-wrap gap-[40px]'>
 					{/* Name */}
-					<FormField />
+					<FormField
+						labelName='Your Name *'
+						placeholder='John Doe'
+						inputType='text'
+						value=''
+					/>
 					{/* Title */}
 				</div>
 
