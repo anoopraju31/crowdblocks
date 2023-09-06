@@ -102,30 +102,23 @@ const Navbar = () => {
 								const Icon = link.icon
 								return (
 									<li
+										className='mb-4'
 										key={link.name}
 										onClick={() => {
 											setToggleDrawer(false)
 										}}>
 										<Link
 											href={link.link}
-											className={`flex p-4 rounded-[10px] cursor-pointer ${
-												pathname === link.link && 'bg-[#3a3a43]'
+											className={`flex p-4 rounded-[10px] hover:bg-green-500 hover:text-white cursor-pointer ${
+												pathname === link.link
+													? 'bg-green-500 text-white'
+													: 'text-[#808191] '
 											}`}>
-											<div
-												className={`w-[24px] h-[24px] object-contain  ${
-													pathname === link.link
-														? 'text-green-500'
-														: 'text-white'
-												}`}>
-												<Icon />
+											<div className={`w-[24px] h-[24px] object-contain`}>
+												<Icon size={26} />
 											</div>
 
-											<p
-												className={`ml-[20px] font-epilogue font-semibold text-[14px] ${
-													pathname === link.name
-														? 'text-green-500'
-														: 'text-[#808191]'
-												}`}>
+											<p className='ml-[20px] font-epilogue font-semibold text-[14px]'>
 												{link.name}
 											</p>
 										</Link>

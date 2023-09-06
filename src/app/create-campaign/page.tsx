@@ -20,7 +20,7 @@ const CreateCampaignPage = () => {
 	}
 
 	return (
-		<main className='flex justify-center items-center flex-col '>
+		<main className='flex justify-center items-center flex-col m-10'>
 			{/* Heading */}
 			<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]'>
 				<h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'>
