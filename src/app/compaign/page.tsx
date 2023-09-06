@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button } from '../components'
+import { Button, StatBox } from '../components'
 import Image from 'next/image'
 
 const CompaignDetailsPage = () => {
@@ -25,7 +25,11 @@ const CompaignDetailsPage = () => {
 					</div>
 				</div>
 				{/* Stats */}
-				<div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'></div>
+				<div className='flex md:w-[150px] w-full flex-wrap justify-between gap-[30px]'>
+					<StatBox />
+					<StatBox />
+					<StatBox />
+				</div>
 			</div>
 		</main>
 	)
