@@ -37,12 +37,14 @@ const CompaignDetailsPage = () => {
 			<div className='w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-0 mx-auto mt-[60px] flex lg:flex-row flex-col gap-10'>
 				<div className='flex-[2] flex flex-col gap-[40px]'>
 					<div>
+						{/* Creator */}
 						<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
 							Creator
 						</h4>
 
 						<div className='mt-[20px] flex flex-row items-center flex-wrap gap-[14px]'>
 							<div className='w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer'>
+								{/* profile image */}
 								<div className='rounded-full overflow-hidden w-6 h-6 inline-block bg-[rgb(35, 143, 225)]'>
 									<svg x='0' y='0' width='24' height='24'>
 										<rect
@@ -70,9 +72,11 @@ const CompaignDetailsPage = () => {
 								</div>
 							</div>
 							<div>
+								{/* Creator Address */}
 								<h4 className='font-epilogue font-semibold text-[14px] text-white break-all'>
 									0x19EA0f475B7653Ec108B62D363bcD2dAC3e937e6
 								</h4>
+								{/* Number of compaigns */}
 								<p className='mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]'>
 									10 Campaigns
 								</p>
@@ -80,6 +84,7 @@ const CompaignDetailsPage = () => {
 						</div>
 					</div>
 
+					{/* Description */}
 					<div>
 						<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
 							Story
@@ -95,6 +100,7 @@ const CompaignDetailsPage = () => {
 						</div>
 					</div>
 
+					{/* Donations List */}
 					<div>
 						<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
 							Donators
@@ -140,6 +146,7 @@ const CompaignDetailsPage = () => {
 					</div>
 				</div>
 
+				{/* Funding form */}
 				<div className='flex-1'>
 					<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
 						Fund
