@@ -66,7 +66,13 @@ const CreateCampaignPage = () => {
 					/>
 
 					{/* Submit Button */}
-					<Button />
+					<div className='flex justify-center items-center mt-[40px]'>
+						<Button
+							btnType='submit'
+							title='Submit new campaign'
+							styles='bg-green-500'
+						/>
+					</div>
 				</form>
 			</div>
 		</main>
