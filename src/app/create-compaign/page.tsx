@@ -1,7 +1,17 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import { Button, FormField } from '../components'
 
 const CreateCampaignPage = () => {
+	const [form, setForm] = useState({
+		name: '',
+		title: '',
+		description: '',
+		target: '',
+		deadline: '',
+		image: '',
+	})
+
 	return (
 		<main className='w-full bg-[#1c1c24] '>
 			<div className='max-w-4xl mx-auto flex justify-center items-center flex-col sm:p-10 p-4'>
@@ -19,7 +29,7 @@ const CreateCampaignPage = () => {
 							labelName='Your Name *'
 							placeholder='John Doe'
 							inputType='text'
-							value=''
+							value={form.name}
 						/>
 						{/* Title */}
 
@@ -27,7 +37,7 @@ const CreateCampaignPage = () => {
 							labelName='Campaign Title *'
 							placeholder='Write a title'
 							inputType='text'
-							value=''
+							value={form.title}
 						/>
 					</div>
 
@@ -36,7 +46,7 @@ const CreateCampaignPage = () => {
 						labelName='Story *'
 						placeholder='Write your story'
 						isTextArea
-						value=''
+						value={form.description}
 					/>
 
 					<div className='flex flex-wrap gap-[40px]'>
@@ -45,7 +55,7 @@ const CreateCampaignPage = () => {
 							labelName='Goal *'
 							placeholder='ETH 0.50'
 							inputType='text'
-							value=''
+							value={form.target}
 						/>
 
 						{/* End Date */}
@@ -53,7 +63,7 @@ const CreateCampaignPage = () => {
 							labelName='End Date *'
 							placeholder='End Date'
 							inputType='date'
-							value=''
+							value={form.deadline}
 						/>
 					</div>
 
