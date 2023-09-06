@@ -21,7 +21,7 @@ const { chains, publicClient } = configureChains(
 )
 const { connectors } = getDefaultWallets({
 	appName: 'CrowdBlocks',
-	projectId: process.env.PROJECT_ID as string,
+	projectId: 'd1863b59db16a7c67fae05b9a1aacb23', //process.env.PROJECT_ID as string,
 	chains,
 })
 const wagmiConfig = createConfig({
@@ -37,9 +37,12 @@ const appInfo = {
 const Providers = ({ children }: ProvidersType) => {
 	const [mounted, setMounted] = useState(false)
 	useEffect(() => setMounted(true), [])
+
+	console.log('process.env.ALCHEMY_ID ', process.env.ALCHEMY_ID)
+
 	return (
 		<WagmiConfig config={wagmiConfig}>
-			<RainbowKitProvider chains={chains} appInfo={appInfo}>
+			<RainbowKitProvider chains={chains}>
 				{mounted && children}
 			</RainbowKitProvider>
 		</WagmiConfig>
