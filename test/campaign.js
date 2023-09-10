@@ -73,5 +73,11 @@ describe('crowdfunding', () => {
 
 			expect(allCompletedCampaigns.length).to.be.eq(0)
 		})
+
+		it('Should return the contract balance', async () => {
+			const balance = await crowdBlocks.getContractBalance()
+
+			expect(balance).to.be.eq(0)
+		})
 	})
 })

@@ -205,4 +205,10 @@ contract CrowdBlocks {
 
         return allCompletedCampaigns;
     }
+
+    /// @dev Get the current balance of this smart contract.
+    /// @return The balance of the smart contract in wei
+    function getContractBalance() public view returns (uint) {
+        return address(this).balance;
+    }
 }
