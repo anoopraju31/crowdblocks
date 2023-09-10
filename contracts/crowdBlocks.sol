@@ -24,6 +24,11 @@ contract CrowdBlocks {
         string memory _profile,
         uint _phone
     ) public {
+        require(
+            !organizers[msg.sender].isValid,
+            "Organizer exists with this address"
+        );
+
         Organizer storage newOrganizer = organizers[msg.sender];
 
         newOrganizer.walletAddress = msg.sender;

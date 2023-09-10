@@ -33,5 +33,11 @@ describe('crowdfunding', () => {
 				.to.emit(crowdBlocks, 'OrganizerCreated')
 				.withArgs(organizer2.address, organizer2Data[0], organizer2Data[2])
 		})
+
+		it('Should revert if an organizer with same address exists', async () => {
+			await expect(
+				crowdBlocks.connect(organizer1).createOrganizer(...organizerData),
+			).to.be.rejectedWith('Organizer exists with this address')
+		})
 	})
 })
