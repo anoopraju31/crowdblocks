@@ -168,4 +168,21 @@ contract CrowdBlocks {
     ) public view returns (uint[] memory) {
         return organizers[_address].campaigns;
     }
+
+    /**
+     * @dev Retrieves the indices of all active campaigns.
+     * @return An array containing the indices of all active campaigns.
+     */
+    function getAllActiveCampaigns() public view returns (uint[] memory) {
+        uint[] memory allActiveCampaigns = new uint[](numberOfActiveCampaigns);
+        uint idx;
+
+        for (uint i = 1; i <= numberOfCampaigns; i++) {
+            if (campaigns[i].isCompleted == false) {
+                allActiveCampaigns[idx++] = i;
+            }
+        }
+
+        return allActiveCampaigns;
+    }
 }
