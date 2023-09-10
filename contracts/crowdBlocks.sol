@@ -145,4 +145,13 @@ contract CrowdBlocks {
     function getCampaignImage(uint _id) public view returns (string memory) {
         return campaigns[_id].images[0];
     }
+
+    /**
+     * @dev Returns the images associated with a campaign specified by its ID.
+     * @param _id The unique identifier of the campaign.
+     * @return An array of strings representing the campaign images.
+     */
+    function getCampaignImages(uint _id) public view returns (string[] memory) {
+        return campaigns[_id].images;
+    }
 }
