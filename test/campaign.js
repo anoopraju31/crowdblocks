@@ -28,6 +28,15 @@ describe('crowdfunding', () => {
 			expect(campaign[5]).to.be.eq(campaigns[0][4])
 		})
 
+		it('Should include the campaign id in organizer details', async () => {
+			const idofCampaignsOrganizedByOrganizer =
+				await crowdBlocks.getIdofCampaignsOrganizedByOrganizer(
+					organizer1.address,
+				)
+
+			expect(idofCampaignsOrganizedByOrganizer[0]).to.be.eq(1)
+		})
+
 		it('Should revert if the sender is not an organizer', async () => [
 			await expect(
 				crowdBlocks.connect(organizer2).createCampaign(...campaigns[0]),

@@ -3,6 +3,7 @@ pragma solidity ^0.8.0;
 
 contract CrowdBlocks {
     uint public numberOfCampaigns;
+    uint public numberOfActiveCampaigns;
 
     struct Organizer {
         address walletAddress;
@@ -130,6 +131,9 @@ contract CrowdBlocks {
         newCampaign.targetAmount = _target;
         newCampaign.isValid = true;
 
+        organizers[msg.sender].campaigns.push(numberOfCampaigns);
+        numberOfActiveCampaigns++;
+
         emit CampaignCreated(numberOfCampaigns, _title, msg.sender, _target);
     }
 
@@ -153,5 +157,15 @@ contract CrowdBlocks {
      */
     function getCampaignImages(uint _id) public view returns (string[] memory) {
         return campaigns[_id].images;
+    }
+
+    /**@notice Retrieves the list of campaign IDs organized by a specific organizer.
+     * @param _address The address of the organizer whose campaigns you want to retrieve.
+     * @return An array of campaign IDs organized by the specified organizer.
+     */
+    function getIdofCampaignsOrganizedByOrganizer(
+        address _address
+    ) public view returns (uint[] memory) {
+        return organizers[_address].campaigns;
     }
 }
