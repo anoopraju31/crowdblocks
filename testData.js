@@ -13,7 +13,20 @@ const organizer2Data = [
 	9753102468,
 ]
 
+const campaigns = [
+	[
+		'Buy a smartphone',
+		'Buy an iphone 14 Pro Max',
+		[
+			'https://web-static.wrike.com/cdn-cgi/image/width=880,format=auto,q=80/blog/content/uploads/2022/06/iStock-1322301439.jpg?av=c54f6504d1bbea32efb28835736b9900',
+		],
+		1702235311,
+		2,
+	],
+]
+
 module.exports = {
 	organizerData,
 	organizer2Data,
+	campaigns,
 }
