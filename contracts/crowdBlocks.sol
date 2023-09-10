@@ -185,4 +185,24 @@ contract CrowdBlocks {
 
         return allActiveCampaigns;
     }
+
+    /**
+     * @notice Retrieves an array of IDs representing all completed campaigns.
+     * @dev This function iterates through all campaigns and returns an array of campaign IDs that are marked as completed.
+     * @return An array of campaign IDs that are completed.
+     */
+    function getAllCompletedCampaigns() public view returns (uint[] memory) {
+        uint[] memory allCompletedCampaigns = new uint[](
+            numberOfCampaigns - numberOfActiveCampaigns
+        );
+        uint idx;
+
+        for (uint i = 1; i <= numberOfCampaigns; i++) {
+            if (campaigns[i].isCompleted) {
+                allCompletedCampaigns[idx++] = i;
+            }
+        }
+
+        return allCompletedCampaigns;
+    }
 }

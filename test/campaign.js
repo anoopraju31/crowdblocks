@@ -67,5 +67,11 @@ describe('crowdfunding', () => {
 			expect(allActiveCampaigns[0]).to.be.eq(1)
 			expect(allActiveCampaigns[1]).to.be.eq(2)
 		})
+
+		it('Should return all the ids of active campaigns', async () => {
+			const allCompletedCampaigns = await crowdBlocks.getAllCompletedCampaigns()
+
+			expect(allCompletedCampaigns.length).to.be.eq(0)
+		})
 	})
 })
