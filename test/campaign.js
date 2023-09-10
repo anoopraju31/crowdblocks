@@ -39,5 +39,11 @@ describe('crowdfunding', () => {
 				crowdBlocks.connect(organizer1).createCampaign(...campaigns[1]),
 			).to.emit(crowdBlocks, 'CampaignCreated')
 		})
+
+		it('Should return the image from a campaign', async () => {
+			const campaignImage = await crowdBlocks.getCampaignImage(1)
+
+			expect(campaignImage).to.be.eq(campaigns[0][2][0])
+		})
 	})
 })

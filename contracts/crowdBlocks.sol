@@ -132,4 +132,17 @@ contract CrowdBlocks {
 
         emit CampaignCreated(numberOfCampaigns, _title, msg.sender, _target);
     }
+
+    /**
+     * @dev Retrieves the image URL of a campaign by its ID.
+     *
+     * This function allows you to get the URL of the first image associated with a campaign
+     * based on its unique ID.
+     *
+     * @param _id The unique ID of the campaign to retrieve the image from.
+     * @return The URL of the first image associated with the specified campaign.
+     */
+    function getCampaignImage(uint _id) public view returns (string memory) {
+        return campaigns[_id].images[0];
+    }
 }
