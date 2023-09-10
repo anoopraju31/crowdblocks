@@ -40,6 +40,21 @@ contract CrowdBlocks {
 
     // events
     event OrganizerCreated(address walletAddress, string name, string emailId);
+    event CampaignCreated(
+        uint id,
+        string title,
+        address organizer,
+        uint target
+    );
+
+    // modifier
+    modifier onlyOrganizer() {
+        require(
+            organizers[msg.sender].isValid,
+            "Only organizer is allowed to create campaign"
+        );
+        _;
+    }
 
     /**
      * @notice Create a new organizer profile.
@@ -103,7 +118,7 @@ contract CrowdBlocks {
         string[] memory _images,
         uint _deadline,
         uint _target
-    ) public {
+    ) public onlyOrganizer {
         Campaign storage newCampaign = campaigns[++numberOfCampaigns];
 
         newCampaign.organizer = msg.sender;
@@ -114,5 +129,7 @@ contract CrowdBlocks {
         newCampaign.deadline = _deadline;
         newCampaign.targetAmount = _target;
         newCampaign.isValid = true;
+
+        emit CampaignCreated(numberOfCampaigns, _title, msg.sender, _target);
     }
 }

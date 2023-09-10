@@ -23,6 +23,15 @@ const campaigns = [
 		1702235311,
 		2,
 	],
+	[
+		'Buy a laptop',
+		'Buy an Macbook 14 Pro M2',
+		[
+			'https://web-static.wrike.com/cdn-cgi/image/width=880,format=auto,q=80/blog/content/uploads/2022/06/iStock-1322301439.jpg?av=c54f6504d1bbea32efb28835736b9900',
+		],
+		1702235311,
+		6,
+	],
 ]
 
 module.exports = {
