@@ -15,6 +15,8 @@ contract CrowdBlocks {
 
     mapping(address => Organizer) public organizers;
 
+    event OrganizerCreated(address walletAddress, string name, string emailId);
+
     function createOrganizer(
         string memory _name,
         string memory _contact,
@@ -31,5 +33,7 @@ contract CrowdBlocks {
         newOrganizer.profile = _profile;
         newOrganizer.phone = _phone;
         newOrganizer.isValid = true;
+
+        emit OrganizerCreated(msg.sender, _name, _emailId);
     }
 }

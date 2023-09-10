@@ -1,8 +1,9 @@
 const { expect } = require('chai')
-const { ethers, waffle } = require('hardhat')
+const { ethers } = require('hardhat')
+const { organizerData, organizer2Data } = require('../testData')
 
 describe('crowdfunding', () => {
-	let owner, organizer1, organizer2, donor
+	let organizer1, organizer2, donor
 
 	before(async () => {
 		;[organizer1, organizer2, donor] = await ethers.getSigners()
@@ -12,15 +13,7 @@ describe('crowdfunding', () => {
 
 	describe('Create an organizer', () => {
 		it('Should create an organizer', async () => {
-			const organizerData = [
-				'Anoop Raju',
-				'BDB202 Meenachil Hostel',
-				'anoop2019@iiitkottayam.ac.in',
-				'https://web-static.wrike.com/cdn-cgi/image/width=880,format=auto,q=80/blog/content/uploads/2022/06/iStock-1322301439.jpg?av=c54f6504d1bbea32efb28835736b9900',
-				9876543210,
-			]
 			const tx = await crowdBlocks.createOrganizer(...organizerData)
-
 			await tx.wait()
 
 			const organizer = await crowdBlocks.organizers(organizer1.address)
@@ -31,6 +24,14 @@ describe('crowdfunding', () => {
 			expect(organizer[3]).to.be.eq(organizerData[2])
 			expect(organizer[4]).to.be.eq(organizerData[3])
 			expect(organizer[5]).to.be.eq(organizerData[4])
+		})
+
+		it('Should emit OrganizerCreated event', async () => {
+			await expect(
+				crowdBlocks.connect(organizer2).createOrganizer(...organizer2Data),
+			)
+				.to.emit(crowdBlocks, 'OrganizerCreated')
+				.withArgs(organizer2.address, organizer2Data[0], organizer2Data[2])
 		})
 	})
 })
