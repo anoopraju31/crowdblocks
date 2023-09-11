@@ -288,4 +288,16 @@ contract CrowdBlocks {
     ) public view returns (UserContribution[] memory) {
         return users[_user].contributions;
     }
+
+    function campaignCompleted(uint _id) private onlyActiveCampaign(_id) {
+        campaigns[_id].isCompleted = true;
+
+        (bool sent, ) = payable(campaigns[_id].organizer).call{
+            value: campaigns[_id].collectedAmount
+        }("");
+
+        if (sent) {
+            numberOfActiveCampaigns--;
+        }
+    }
 }

@@ -21,7 +21,7 @@ const campaigns = [
 			'https://web-static.wrike.com/cdn-cgi/image/width=880,format=auto,q=80/blog/content/uploads/2022/06/iStock-1322301439.jpg?av=c54f6504d1bbea32efb28835736b9900',
 		],
 		1702235311,
-		2,
+		2000000000000000000n,
 	],
 	[
 		'Buy a laptop',
@@ -30,7 +30,7 @@ const campaigns = [
 			'https://web-static.wrike.com/cdn-cgi/image/width=880,format=auto,q=80/blog/content/uploads/2022/06/iStock-1322301439.jpg?av=c54f6504d1bbea32efb28835736b9900',
 		],
 		1702235311,
-		6,
+		6000000000000000000n,
 	],
 ]
 
