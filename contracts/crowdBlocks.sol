@@ -300,6 +300,20 @@ contract CrowdBlocks {
         return users[_user].contributions;
     }
 
+    /**
+     * @dev Mark a campaign as completed and transfer collected funds to the organizer.
+     *
+     * This function sets the `isCompleted` flag for the specified campaign to true,
+     * transfers the collected funds to the campaign organizer, and emits an event.
+     *
+     * @param _id The ID of the campaign to mark as completed.
+     *
+     * Requirements:
+     * - The campaign must be active.
+     * - The campaign organizer must receive the transferred funds.
+     *
+     * Emits a `CampaignComplete` event upon successful completion.
+     */
     function campaignCompleted(uint _id) private onlyActiveCampaign(_id) {
         campaigns[_id].isCompleted = true;
 
