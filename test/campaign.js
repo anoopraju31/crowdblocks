@@ -122,27 +122,6 @@ describe('crowdfunding', () => {
 	})
 
 	describe('Complete a campaign', () => {
-		// it('Should complete campaign 1', async () => {
-		// 	const donationTx = await crowdBlocks.connect(donor1).donateToCampaign(1, {
-		// 		value: ethers.parseUnits('1000000000000000000', 'wei'),
-		// 	})
-		// 	await donationTx.wait()
-
-		// 	const contractBalance = await crowdBlocks.getContractBalance()
-		// 	const campaign = await crowdBlocks.campaigns(1)
-		// 	const userContributions = await crowdBlocks.getUserContributions(
-		// 		donor1.address,
-		// 	)
-
-		// 	expect(contractBalance).to.be.eq(0n)
-		// 	expect(campaign[6]).to.be.eq(2000000100000000000n)
-		// 	expect(userContributions[2][0]).to.be.eq(1)
-		// 	expect(userContributions[2][1]).to.be.eq(1000000000000000000n)
-
-		// 	// collectedAmount === targetAmount
-		// 	expect(campaign[6]).to.be.greaterThanOrEqual(campaign[5])
-		// })
-
 		it('Should Emit CampaignComplete event', async () => {
 			await expect(
 				crowdBlocks.connect(donor1).donateToCampaign(1, {
@@ -159,6 +138,16 @@ describe('crowdfunding', () => {
 					2000000100000000000n,
 					2000000000000000000n,
 				)
+		})
+
+		it('Should check the campaign status', async () => {
+			const campaign = await crowdBlocks.campaigns(1)
+			expect(campaign[7]).to.be.eq(true)
+		})
+
+		it('Should check the contract balance', async () => {
+			const balance = await crowdBlocks.getContractBalance()
+			expect(balance).to.be.eq(0n)
 		})
 	})
 })
