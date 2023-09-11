@@ -36,8 +36,21 @@ contract CrowdBlocks {
         bool isValid;
     }
 
+    struct UserContribution {
+        uint campaignId;
+        uint contribution;
+        uint date;
+    }
+
+    struct UserProfile {
+        address walletAddress;
+        UserContribution[] contributions;
+        bool isValid;
+    }
+
     mapping(address => Organizer) public organizers;
     mapping(uint => Campaign) public campaigns;
+    mapping(address => UserProfile) public users;
 
     // events
     event OrganizerCreated(address walletAddress, string name, string emailId);
@@ -47,6 +60,7 @@ contract CrowdBlocks {
         address organizer,
         uint target
     );
+    event DonatedToCampaign(uint _id, address donor);
 
     // modifier
     modifier onlyOrganizer() {
@@ -54,6 +68,11 @@ contract CrowdBlocks {
             organizers[msg.sender].isValid,
             "Only organizer is allowed to create campaign"
         );
+        _;
+    }
+
+    modifier onlyActiveCampaign(uint _id) {
+        require(campaigns[_id].isCompleted == false, "Campaign has closed!");
         _;
     }
 
@@ -206,9 +225,53 @@ contract CrowdBlocks {
         return allCompletedCampaigns;
     }
 
-    /// @dev Get the current balance of this smart contract.
-    /// @return The balance of the smart contract in wei
+    /**
+     * @dev Get the current balance of this smart contract.
+     * @return The balance of the smart contract in wei
+     */
     function getContractBalance() public view returns (uint) {
         return address(this).balance;
+    }
+
+    /**
+     * @dev Allows a user to donate funds to a campaign.
+     *
+     * @param _id The unique identifier of the campaign to which the donation is made.
+     *
+     * Requirements:
+     * - The campaign with the given _id must be active.
+     * - The function caller must send a non-zero amount of Ether.
+     *
+     * Effects:
+     * - Records the contribution with the contributor's address, contribution amount, and timestamp.
+     * - Attempts to transfer the donated Ether to the contract.
+     * - If the transfer fails, the donated amount is added to the campaign's collectedAmount.
+     * - Updates the list of contributions for the campaign and the user.
+     * - If the user making the donation is not registered, creates a new user profile.
+     * - Emits a DonatedToCampaign event with campaign ID and contributor's address.
+     */
+    function donateToCampaign(uint _id) public payable onlyActiveCampaign(_id) {
+        require(msg.value > 0, "Donation amount must be greater than zero");
+
+        (bool sent, ) = payable(address(this)).call{value: msg.value}("");
+
+        if (!sent) {
+            campaigns[_id].collectedAmount += msg.value;
+            campaigns[_id].contributions.push(
+                Contribution(msg.sender, msg.value, block.timestamp)
+            );
+
+            if (!users[msg.sender].isValid) {
+                UserProfile storage user = users[msg.sender];
+                user.walletAddress = msg.sender;
+                user.isValid = true;
+            }
+
+            users[msg.sender].contributions.push(
+                UserContribution(_id, msg.value, block.timestamp)
+            );
+
+            emit DonatedToCampaign(_id, msg.sender);
+        }
     }
 }

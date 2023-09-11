@@ -3,10 +3,10 @@ const { ethers } = require('hardhat')
 const { organizerData, campaigns } = require('../testData')
 
 describe('crowdfunding', () => {
-	let organizer1, organizer2, donor
+	let organizer1, organizer2, donor1, donor2
 
 	before(async () => {
-		;[organizer1, organizer2, donor] = await ethers.getSigners()
+		;[organizer1, organizer2, donor1, donor2] = await ethers.getSigners()
 		const CrowdBlocks = await ethers.getContractFactory('CrowdBlocks')
 		crowdBlocks = await CrowdBlocks.deploy()
 	})
@@ -78,6 +78,34 @@ describe('crowdfunding', () => {
 			const balance = await crowdBlocks.getContractBalance()
 
 			expect(balance).to.be.eq(0)
+		})
+	})
+
+	describe('Donate to a campaign', () => {
+		it('Should retrieve details of campaign 1', async () => {
+			const campaign = await crowdBlocks.campaigns(1)
+
+			expect(campaign[0]).to.be.eq(organizer1.address)
+			expect(campaign[1]).to.be.eq(campaigns[0][0])
+			expect(campaign[2]).to.be.eq(campaigns[0][1])
+			expect(campaign[4]).to.be.eq(campaigns[0][3])
+			expect(campaign[5]).to.be.eq(campaigns[0][4])
+		})
+
+		it('Should donate to campaign 1', async () => {
+			const donationTx = await crowdBlocks.connect(donor1).donateToCampaign(1, {
+				value: ethers.parseUnits('1', 'ether'),
+			})
+			await donationTx.wait()
+
+			const contractBalamce = await crowdBlocks.getContractBalance()
+			const campaign = await crowdBlocks.campaigns(1)
+			const user = await crowdBlocks.users(donor1.address)
+
+			console.log(user)
+
+			expect(contractBalamce).to.be.eq(1000000000000000000n)
+			expect(campaign[6]).to.be.eq(1000000000000000000n)
 		})
 	})
 })
