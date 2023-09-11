@@ -61,6 +61,13 @@ contract CrowdBlocks {
         uint target
     );
     event DonatedToCampaign(uint _id, address donor);
+    event CampaignComplete(
+        uint id,
+        address organizer,
+        string title,
+        uint collectedAmount,
+        uint targetAmount
+    );
 
     // modifier
     modifier onlyOrganizer() {
@@ -272,6 +279,10 @@ contract CrowdBlocks {
             );
 
             emit DonatedToCampaign(_id, msg.sender);
+
+            if (campaigns[_id].collectedAmount >= campaigns[_id].targetAmount) {
+                campaignCompleted(_id);
+            }
         }
     }
 
@@ -299,5 +310,13 @@ contract CrowdBlocks {
         if (sent) {
             numberOfActiveCampaigns--;
         }
+
+        emit CampaignComplete(
+            _id,
+            campaigns[_id].organizer,
+            campaigns[_id].title,
+            campaigns[_id].collectedAmount,
+            campaigns[_id].targetAmount
+        );
     }
 }

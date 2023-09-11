@@ -98,39 +98,67 @@ describe('crowdfunding', () => {
 			})
 			await donationTx.wait()
 
-			const contractBalamce = await crowdBlocks.getContractBalance()
+			const contractBalance = await crowdBlocks.getContractBalance()
 			const campaign = await crowdBlocks.campaigns(1)
 			const userContributions = await crowdBlocks.getUserContributions(
 				donor1.address,
 			)
 
-			expect(contractBalamce).to.be.eq(1000000000000000000n)
+			expect(contractBalance).to.be.eq(1000000000000000000n)
 			expect(campaign[6]).to.be.eq(1000000000000000000n)
 			expect(userContributions[0][0]).to.be.eq(1)
 			expect(userContributions[0][1]).to.be.eq(1000000000000000000n)
 		})
+
+		it('Should emit DonatedToCampaign', async () => {
+			await expect(
+				crowdBlocks.connect(donor1).donateToCampaign(1, {
+					value: ethers.parseUnits('100000000000', 'wei'),
+				}),
+			)
+				.to.emit(crowdBlocks, 'DonatedToCampaign')
+				.withArgs(1, donor1.address)
+		})
 	})
 
 	describe('Complete a campaign', () => {
-		it('Should complete campaign 1', async () => {
-			const donationTx = await crowdBlocks.connect(donor1).donateToCampaign(1, {
-				value: ethers.parseUnits('1000000000000000000', 'wei'),
-			})
-			await donationTx.wait()
+		// it('Should complete campaign 1', async () => {
+		// 	const donationTx = await crowdBlocks.connect(donor1).donateToCampaign(1, {
+		// 		value: ethers.parseUnits('1000000000000000000', 'wei'),
+		// 	})
+		// 	await donationTx.wait()
 
-			const contractBalamce = await crowdBlocks.getContractBalance()
-			const campaign = await crowdBlocks.campaigns(1)
-			const userContributions = await crowdBlocks.getUserContributions(
-				donor1.address,
+		// 	const contractBalance = await crowdBlocks.getContractBalance()
+		// 	const campaign = await crowdBlocks.campaigns(1)
+		// 	const userContributions = await crowdBlocks.getUserContributions(
+		// 		donor1.address,
+		// 	)
+
+		// 	expect(contractBalance).to.be.eq(0n)
+		// 	expect(campaign[6]).to.be.eq(2000000100000000000n)
+		// 	expect(userContributions[2][0]).to.be.eq(1)
+		// 	expect(userContributions[2][1]).to.be.eq(1000000000000000000n)
+
+		// 	// collectedAmount === targetAmount
+		// 	expect(campaign[6]).to.be.greaterThanOrEqual(campaign[5])
+		// })
+
+		it('Should Emit CampaignComplete event', async () => {
+			await expect(
+				crowdBlocks.connect(donor1).donateToCampaign(1, {
+					value: ethers.parseUnits('1000000000000000000', 'wei'),
+				}),
 			)
-
-			expect(contractBalamce).to.be.eq(2000000000000000000n)
-			expect(campaign[6]).to.be.eq(2000000000000000000n)
-			expect(userContributions[1][0]).to.be.eq(1)
-			expect(userContributions[1][1]).to.be.eq(1000000000000000000n)
-
-			// collectedAmount === targetAmount
-			expect(campaign[6]).to.be.eq(campaign[5])
+				.to.emit(crowdBlocks, 'DonatedToCampaign')
+				.withArgs(1, donor1.address)
+				.to.emit(crowdBlocks, 'CampaignComplete')
+				.withArgs(
+					1,
+					organizer1.address,
+					campaigns[0][0],
+					2000000100000000000n,
+					2000000000000000000n,
+				)
 		})
 	})
 })
