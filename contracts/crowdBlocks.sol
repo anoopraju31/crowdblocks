@@ -351,7 +351,7 @@ contract CrowdBlocks {
      * @dev Checks if the caller is an organizer.
      * @return A boolean indicating whether the caller is an organizer.
      */
-    function isOrganizer() public view returns (bool) {
-        return organizers[msg.sender].isValid;
+    function isOrganizer(address _user) public view returns (bool) {
+        return organizers[_user].isValid;
     }
 }
