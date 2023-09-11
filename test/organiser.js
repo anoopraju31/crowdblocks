@@ -39,5 +39,13 @@ describe('crowdfunding', () => {
 				crowdBlocks.connect(organizer1).createOrganizer(...organizerData),
 			).to.be.rejectedWith('Organizer exists with this address')
 		})
+
+		it('Should Check isOrangizer', async () => {
+			const check1 = await crowdBlocks.isOrganizer()
+			const check2 = await crowdBlocks.connect(donor).isOrganizer()
+
+			expect(check1).to.be.eq(true)
+			expect(check2).to.be.eq(false)
+		})
 	})
 })
