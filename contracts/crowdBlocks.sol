@@ -1,6 +1,10 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
+/**
+ * @title CrowdBlocks - A crowdfunding smart contract.
+ * @notice This contract allows users to create crowdfunding campaigns and donate to them.
+ */
 contract CrowdBlocks {
     uint public numberOfCampaigns;
     uint public numberOfActiveCampaigns;
@@ -185,7 +189,8 @@ contract CrowdBlocks {
         return campaigns[_id].images;
     }
 
-    /**@notice Retrieves the list of campaign IDs organized by a specific organizer.
+    /**
+     * @notice Retrieves the list of campaign IDs organized by a specific organizer.
      * @param _address The address of the organizer whose campaigns you want to retrieve.
      * @return An array of campaign IDs organized by the specified organizer.
      */
@@ -340,5 +345,13 @@ contract CrowdBlocks {
      */
     function getNumberOfClosedCampaigns() public view returns (uint) {
         return numberOfCampaigns - numberOfActiveCampaigns;
+    }
+
+    /**
+     * @dev Checks if the caller is an organizer.
+     * @return A boolean indicating whether the caller is an organizer.
+     */
+    function isOrganizer() public view returns (bool) {
+        return organizers[msg.sender].isValid;
     }
 }
