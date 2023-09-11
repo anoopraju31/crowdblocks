@@ -276,14 +276,16 @@ contract CrowdBlocks {
     }
 
     /**
-     * @dev Retrieves an array of UserContribution structures representing the donations made by the calling user.
-     * @return An array of UserContribution structures containing details of the user's donations.
+     * @notice Get the contributions made by a user.
+     * @param _user The address of the user whose contributions you want to retrieve.
+     * @return An array of `UserContribution` objects representing the contributions made by the user.
+     * @dev This function allows you to retrieve the contributions made by a specific user.
+     * @dev The contributions are stored in the `contributions` array of the user's data.
+     * @dev This function is a view function and does not modify the contract state.
      */
-    function getUserContributions()
-        public
-        view
-        returns (UserContribution[] memory)
-    {
-        return users[msg.sender].contributions;
+    function getUserContributions(
+        address _user
+    ) public view returns (UserContribution[] memory) {
+        return users[_user].contributions;
     }
 }
