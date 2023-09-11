@@ -333,4 +333,12 @@ contract CrowdBlocks {
             campaigns[_id].targetAmount
         );
     }
+
+    /**
+     * @dev Returns the number of closed campaigns.
+     * @return The number of closed campaigns.
+     */
+    function getNumberOfClosedCampaigns() public view returns (uint) {
+        return numberOfCampaigns - numberOfActiveCampaigns;
+    }
 }
