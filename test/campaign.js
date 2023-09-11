@@ -100,12 +100,13 @@ describe('crowdfunding', () => {
 
 			const contractBalamce = await crowdBlocks.getContractBalance()
 			const campaign = await crowdBlocks.campaigns(1)
-			const user = await crowdBlocks.users(donor1.address)
-
-			console.log(user)
+			const userContributions = await crowdBlocks
+				.connect(donor1)
+				.getUserContributions()
 
 			expect(contractBalamce).to.be.eq(1000000000000000000n)
 			expect(campaign[6]).to.be.eq(1000000000000000000n)
+			expect(userContributions[0][1]).to.be.eq(1000000000000000000n)
 		})
 	})
 })

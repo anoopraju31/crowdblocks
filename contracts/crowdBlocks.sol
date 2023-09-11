@@ -274,4 +274,16 @@ contract CrowdBlocks {
             emit DonatedToCampaign(_id, msg.sender);
         }
     }
+
+    /**
+     * @dev Retrieves an array of UserContribution structures representing the donations made by the calling user.
+     * @return An array of UserContribution structures containing details of the user's donations.
+     */
+    function getUserContributions()
+        public
+        view
+        returns (UserContribution[] memory)
+    {
+        return users[msg.sender].contributions;
+    }
 }
