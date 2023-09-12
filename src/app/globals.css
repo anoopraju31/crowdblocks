@@ -31,3 +31,8 @@ input[type='file'] {
 	padding-left: 0;
 	padding-bottom: 0;
 }
+
+::selection {
+	background-color: rgb(34 197 94);
+	color: #ffffff;
+}

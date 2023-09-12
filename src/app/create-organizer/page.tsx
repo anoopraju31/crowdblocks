@@ -1,7 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAccount, useContractRead } from 'wagmi'
+import { redirect } from 'next/navigation'
 import { Button, FormField } from '../components'
+import { CrowdFundingABI } from '@/abis/crowdFunding'
 
 type Form = {
 	name: string
@@ -19,6 +22,19 @@ const CreateOrganizerPage = () => {
 		profile: '',
 		phone: '',
 	})
+	const account = useAccount()
+	const contractRead = useContractRead({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'isOrganizer',
+		args: [account.address],
+	})
+
+	useEffect(() => {
+		if (contractRead.data) {
+			redirect('/')
+		}
+	}, [contractRead])
 
 	const handleFormFieldChange = (
 		fieldName: string,
