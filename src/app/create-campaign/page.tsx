@@ -55,10 +55,6 @@ const CreateCampaignPage = () => {
 	}, [form])
 
 	useEffect(() => {
-		console.log(data)
-	}, [data])
-
-	useEffect(() => {
 		if (isSuccess) redirect('/')
 	}, [isSuccess])
 
