@@ -22,7 +22,10 @@ const ActiveCampagins = async () => {
 	return (
 		<section className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[20px] gap-[26px]'>
 			{campaigns.map((campaignId: BigInt) => (
-				<CampaignCard key={Number(campaignId)} />
+				<CampaignCard
+					key={Number(campaignId)}
+					campaignId={Number(campaignId)}
+				/>
 			))}
 		</section>
 	)

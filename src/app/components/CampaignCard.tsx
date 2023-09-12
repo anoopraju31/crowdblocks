@@ -1,9 +1,38 @@
+import { CrowdFundingABI } from '@/abis/crowdFunding'
+import { ethers } from 'ethers'
+import { AlchemyProvider } from 'ethers'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { BsFolder } from 'react-icons/bs'
 
-const CampaignCard = () => {
+type CampaignCardProps = {
+	campaignId: number
+}
+
+const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
+	const provider = new AlchemyProvider(
+		'sepolia',
+		process.env.NEXT_PUBLIC_ALCHEMY_ID,
+	)
+	const crowdBlocksContract = new ethers.Contract(
+		'0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		CrowdFundingABI,
+		provider,
+	)
+
+	const campaign = await crowdBlocksContract.campaigns(campaignId)
+	const imageSrc = await crowdBlocksContract.getCampaignImages(campaignId)
+
+	console.log(campaign)
+	const getNumberOfDaysLeft = (timestamp: number): number => {
+		let timestampPresent = Math.floor(new Date().getTime() / 1000.0)
+
+		console.log(timestamp - timestampPresent)
+
+		return Math.ceil((timestamp - timestampPresent) / (60 * 60 * 24))
+	}
+
 	return (
 		<Link href='/campaign'>
 			<div
@@ -11,7 +40,7 @@ const CampaignCard = () => {
 				// onClick={handleClick}
 			>
 				<Image
-					src='/premium_photo.avif'
+					src={imageSrc[0]}
 					alt='campaign'
 					width={300}
 					height={200}
@@ -28,15 +57,10 @@ const CampaignCard = () => {
 
 					<div className='block'>
 						<h3 className='font-epilogue font-semibold text-[16px] text-white text-left leading-[26px] truncate'>
-							{' '}
-							Buy an iPhone 14 Pro Max{' '}
+							{campaign[1]}
 						</h3>
 						<p className='mt-[5px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate'>
-							{' '}
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia
-							odit necessitatibus suscipit. Quasi cum inventore in sapiente
-							accusamus asperiores, hic nihil similique animi delectus ipsa
-							sunt! Nesciunt odit magnam molestiae!{' '}
+							{campaign[2]}
 						</p>
 					</div>
 
@@ -44,22 +68,20 @@ const CampaignCard = () => {
 						<div className='flex flex-col'>
 							{/* Collected Amount */}
 							<h4 className='font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]'>
-								{' '}
-								$2300{' '}
+								{Number(campaign[6])}
 							</h4>
 							{/* Target */}
 							<p className='mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate'>
-								Raised of $5000{' '}
+								Raised of {Number(campaign[5])}
 							</p>
 						</div>
 						<div className='flex flex-col'>
 							{/* Deadline */}
 							<h4 className='font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]'>
-								{' '}
-								23{' '}
+								{getNumberOfDaysLeft(Number(campaign[4]))}
 							</h4>
 							<p className='mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate'>
-								Days Left
+								Days left
 							</p>
 						</div>
 					</div>
@@ -92,10 +114,7 @@ const CampaignCard = () => {
 							</svg>
 						</div>
 						<p className='flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate'>
-							by{' '}
-							<span className='text-[#b2b3bd]'>
-								0x19EA0f475B7653Ec108B62D363bcD2dAC3e937e6
-							</span>
+							by <span className='text-[#b2b3bd]'>{campaign[0]}</span>
 						</p>
 					</div>
 				</div>
