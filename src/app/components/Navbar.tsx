@@ -3,7 +3,6 @@ import { usePathname } from 'next/navigation'
 import React, { useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import { GiHamburgerMenu } from 'react-icons/gi'
-import { Button } from '.'
 import Link from 'next/link'
 import { navlinks } from '@/constants'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
@@ -16,16 +15,20 @@ const Navbar = () => {
 		<header className=' bg-[#13131a]'>
 			{/* Large screen Navbar */}
 			<div className='flex md:flex-row flex-col-reverse justify-between gap-6'>
-				<div className='lg:flex-1 flex flex-row s-full md:max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]'>
-					<input
-						type='text'
-						placeholder='Search for campaigns'
-						className='flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none'
-					/>
+				<div className='lg:flex-1 '>
+					{pathname === '/' && (
+						<div className='flex flex-row s-full md:max-w-[458px] py-2 pl-4 pr-2 h-[52px] bg-[#1c1c24] rounded-[100px]'>
+							<input
+								type='text'
+								placeholder='Search for campaigns'
+								className='flex w-full font-epilogue font-normal text-[14px] placeholder:text-[#4b5264] text-white bg-transparent outline-none'
+							/>
 
-					<div className='w-[72px] h-full rounded-[20px] bg-green-500 flex justify-center items-center cursor-pointer'>
-						<BiSearch />
-					</div>
+							<div className='w-[72px] h-full rounded-[20px] bg-green-500 flex justify-center items-center cursor-pointer'>
+								<BiSearch />
+							</div>
+						</div>
+					)}
 				</div>
 
 				<div className='md:flex hidden flex-row justify-center gap-4'>
@@ -135,7 +138,11 @@ const Navbar = () => {
 								title='Connect'
 								styles='bg-purple-500 w-full'
 							/> */}
-							<ConnectButton />
+							<ConnectButton
+								showBalance={false}
+								chainStatus='icon'
+								accountStatus='avatar'
+							/>
 						</div>
 					</div>
 				</div>

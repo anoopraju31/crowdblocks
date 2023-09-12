@@ -46,7 +46,7 @@ const Sidebar = () => {
 	return (
 		<div className='flex justify-between items-center flex-col sticky top-5 h-[93vh]'>
 			<Icon
-				styles='w-[52px] h-[52px] bg-[#2c2f32]'
+				styles='w-[52px] h-[52px] bg-[#2c2f32] text-green-500'
 				link='/'
 				icon={BiLogoBitcoin}
 			/>
