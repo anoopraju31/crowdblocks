@@ -1,8 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import { useAccount, useContractRead } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite } from 'wagmi'
 import { redirect } from 'next/navigation'
+import ReactLoading from 'react-loading'
 import { Button, FormField } from '../components'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 
@@ -22,12 +23,18 @@ const CreateOrganizerPage = () => {
 		profile: '',
 		phone: '',
 	})
+	const [isDisabled, setIsDisabled] = useState(false)
 	const account = useAccount()
 	const contractRead = useContractRead({
 		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
 		abi: CrowdFundingABI,
 		functionName: 'isOrganizer',
 		args: [account.address],
+	})
+	const { isLoading, isSuccess, write } = useContractWrite({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'createOrganizer',
 	})
 
 	useEffect(() => {
@@ -36,6 +43,21 @@ const CreateOrganizerPage = () => {
 		}
 	}, [contractRead])
 
+	useEffect(() => {
+		const checkFill = () =>
+			form.name === '' ||
+			form.email === '' ||
+			form.contact === '' ||
+			form.profile === '' ||
+			form.phone === ''
+
+		setIsDisabled(checkFill())
+	}, [form])
+
+	useEffect(() => {
+		if (isSuccess) redirect('/')
+	}, [isSuccess])
+
 	const handleFormFieldChange = (
 		fieldName: string,
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -43,8 +65,20 @@ const CreateOrganizerPage = () => {
 		setForm({ ...form, [fieldName]: e.target.value })
 	}
 
+	const handleSubmit = () => {
+		write({
+			args: [form.name, form.contact, form.email, form.profile, form.phone],
+		})
+	}
+
 	return (
 		<main className='flex justify-center items-center flex-col m-10'>
+			{isLoading && (
+				<div className='w-full h-screen bg-black/40 fixed top-0 left-0 right-0 flex justify-center items-center'>
+					<p className='text-white text-2xl'> Loading </p>
+					<ReactLoading type='bubbles' color='#fff' />
+				</div>
+			)}
 			{/* Heading */}
 			<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]'>
 				<h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'>
@@ -108,7 +142,13 @@ const CreateOrganizerPage = () => {
 
 				{/* Submit Button */}
 				<div className='flex justify-center items-center mt-[40px]'>
-					<Button btnType='submit' title='Register' styles='bg-green-500' />
+					<Button
+						btnType='button'
+						title='Register'
+						isDisabled={isDisabled}
+						handleClick={handleSubmit}
+						styles='bg-green-500'
+					/>
 				</div>
 			</form>
 		</main>
