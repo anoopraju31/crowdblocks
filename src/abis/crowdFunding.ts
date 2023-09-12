@@ -359,19 +359,6 @@ export const CrowdFundingABI = [
 		type: 'function',
 	},
 	{
-		inputs: [],
-		name: 'getSender',
-		outputs: [
-			{
-				internalType: 'address',
-				name: '',
-				type: 'address',
-			},
-		],
-		stateMutability: 'view',
-		type: 'function',
-	},
-	{
 		inputs: [
 			{
 				internalType: 'address',
