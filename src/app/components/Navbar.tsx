@@ -4,12 +4,62 @@ import React, { useState } from 'react'
 import { BiSearch } from 'react-icons/bi'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import Link from 'next/link'
-import { navlinks } from '@/constants'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
+import {
+	useAccount,
+	useContractRead,
+	useEnsAvatar,
+	useEnsName,
+	useWalletClient,
+} from 'wagmi'
+import { CheckOrganizerType } from '@/types'
+import { CrowdFundingABI } from '@/abis/crowdFunding'
+import type { IconType } from 'react-icons'
+import { MdCreate } from 'react-icons/md'
+import { AiFillHome } from 'react-icons/ai'
+import { IoPersonCircleOutline } from 'react-icons/io5'
+
+type NavLinkProps = {
+	icon: IconType
+	name: string
+	link: string
+	pathname: string
+	toggle: () => void
+}
+
+const NavLink = ({ icon, name, link, pathname, toggle }: NavLinkProps) => {
+	const Icon = icon
+	return (
+		<li className='mb-4' onClick={toggle}>
+			<Link
+				href={link}
+				className={`flex p-4 rounded-[10px] hover:bg-green-500 hover:text-white cursor-pointer ${
+					pathname === link ? 'bg-green-500 text-white' : 'text-[#808191] '
+				}`}>
+				<div className={`w-[24px] h-[24px] object-contain`}>
+					<Icon size={26} />
+				</div>
+
+				<p className='ml-[20px] font-epilogue font-semibold text-[14px]'>
+					{name}
+				</p>
+			</Link>
+		</li>
+	)
+}
 
 const Navbar = () => {
 	const [toggleDrawer, setToggleDrawer] = useState(false)
 	const pathname = usePathname()
+	const { address, isConnected } = useAccount()
+	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'isOrganizer',
+		args: [address],
+		watch: true,
+	})
+	const closeDrawer = () => setToggleDrawer(false)
 
 	return (
 		<header className=' bg-[#13131a]'>
@@ -103,33 +153,40 @@ const Navbar = () => {
 							!toggleDrawer ? '-translate-y-[100vh]' : 'translate-y-0'
 						} transition-all duration-700`}>
 						<ul className='mb-4 mx-4'>
-							{navlinks.map((link) => {
-								const Icon = link.icon
-								return (
-									<li
-										className='mb-4'
-										key={link.name}
-										onClick={() => {
-											setToggleDrawer(false)
-										}}>
-										<Link
-											href={link.link}
-											className={`flex p-4 rounded-[10px] hover:bg-green-500 hover:text-white cursor-pointer ${
-												pathname === link.link
-													? 'bg-green-500 text-white'
-													: 'text-[#808191] '
-											}`}>
-											<div className={`w-[24px] h-[24px] object-contain`}>
-												<Icon size={26} />
-											</div>
-
-											<p className='ml-[20px] font-epilogue font-semibold text-[14px]'>
-												{link.name}
-											</p>
-										</Link>
-									</li>
-								)
-							})}
+							<NavLink
+								icon={AiFillHome}
+								link='/'
+								name='Home'
+								pathname={pathname}
+								toggle={closeDrawer}
+							/>
+							{isConnected && !isOrganizer && (
+								<NavLink
+									icon={IoPersonCircleOutline}
+									link='/create-organizer'
+									name='Register As Organizer'
+									pathname={pathname}
+									toggle={closeDrawer}
+								/>
+							)}
+							{isConnected && isOrganizer && (
+								<NavLink
+									icon={MdCreate}
+									link='/create-campaign'
+									name='Create Campaign'
+									pathname={pathname}
+									toggle={closeDrawer}
+								/>
+							)}
+							{isConnected && (
+								<NavLink
+									icon={AiFillHome}
+									link='/profile'
+									name='Profile'
+									pathname={pathname}
+									toggle={closeDrawer}
+								/>
+							)}
 						</ul>
 
 						<div className='flex mx-4'>
