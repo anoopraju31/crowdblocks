@@ -15,6 +15,10 @@ type Form = {
 	phone: string
 }
 
+type CheckOrganizerType = {
+	data: boolean | undefined
+}
+
 const CreateOrganizerPage = () => {
 	const [form, setForm] = useState<Form>({
 		name: '',
@@ -24,12 +28,12 @@ const CreateOrganizerPage = () => {
 		phone: '',
 	})
 	const [isDisabled, setIsDisabled] = useState(false)
-	const account = useAccount()
-	const contractRead = useContractRead({
+	const { address, isConnected } = useAccount()
+	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
 		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
 		abi: CrowdFundingABI,
 		functionName: 'isOrganizer',
-		args: [account.address],
+		args: [address],
 	})
 	const { isLoading, isSuccess, write } = useContractWrite({
 		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
@@ -38,10 +42,10 @@ const CreateOrganizerPage = () => {
 	})
 
 	useEffect(() => {
-		if (contractRead.data) {
+		if (!isConnected || isOrganizer) {
 			redirect('/')
 		}
-	}, [contractRead])
+	}, [isConnected, isOrganizer])
 
 	useEffect(() => {
 		const checkFill = () =>
