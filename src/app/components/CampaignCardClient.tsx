@@ -30,7 +30,6 @@ const CampaignCardClient = ({ campaignId }: CampaignCardProps) => {
 		functionName: 'getCampaignImage',
 		args: [campaignId],
 	})
-	console.log(campaign, campaignId)
 
 	return (
 		<Link href='/campaign'>
