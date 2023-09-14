@@ -1,29 +1,36 @@
+'use client'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { getNumberOfDaysLeft } from '@/utils'
-import { ethers } from 'ethers'
-import { AlchemyProvider } from 'ethers'
 import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 import { BsFolder } from 'react-icons/bs'
+import { useContractRead } from 'wagmi'
 
 type CampaignCardProps = {
 	campaignId: number
 }
 
-const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
-	const provider = new AlchemyProvider(
-		'sepolia',
-		process.env.NEXT_PUBLIC_ALCHEMY_ID,
-	)
-	const crowdBlocksContract = new ethers.Contract(
-		'0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
-		CrowdFundingABI,
-		provider,
-	)
+type CampaignType = {
+	data:
+		| [string, string, string, BigInt, BigInt, BigInt, BigInt, boolean, boolean]
+		| undefined
+}
 
-	const campaign = await crowdBlocksContract.campaigns(campaignId)
-	const imageSrc = await crowdBlocksContract.getCampaignImages(campaignId)
+const CampaignCardClient = ({ campaignId }: CampaignCardProps) => {
+	const { data: campaign }: CampaignType = useContractRead({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'campaigns',
+		args: [campaignId],
+	})
+	const campaignImagesRead = useContractRead({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'getCampaignImage',
+		args: [campaignId],
+	})
+	console.log(campaign, campaignId)
 
 	return (
 		<Link href='/campaign'>
@@ -32,7 +39,7 @@ const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
 				// onClick={handleClick}
 			>
 				<Image
-					src={imageSrc[0]}
+					src={campaignImagesRead.data as string}
 					alt='campaign'
 					width={300}
 					height={200}
@@ -49,10 +56,10 @@ const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
 
 					<div className='block'>
 						<h3 className='font-epilogue font-semibold text-[16px] text-white text-left leading-[26px] truncate'>
-							{campaign[1]}
+							{campaign && campaign[1]}
 						</h3>
 						<p className='mt-[5px] font-epilogue font-normal text-[#808191] text-left leading-[18px] truncate'>
-							{campaign[2]}
+							{campaign && campaign[2]}
 						</p>
 					</div>
 
@@ -60,17 +67,17 @@ const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
 						<div className='flex flex-col'>
 							{/* Collected Amount */}
 							<h4 className='font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]'>
-								{Number(campaign[6])}
+								{campaign && Number(campaign[6])}
 							</h4>
 							{/* Target */}
 							<p className='mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate'>
-								Raised of {Number(campaign[5])}
+								Raised of {campaign && Number(campaign[5])}
 							</p>
 						</div>
 						<div className='flex flex-col'>
 							{/* Deadline */}
 							<h4 className='font-epilogue font-semibold text-[14px] text-[#b2b3bd] leading-[22px]'>
-								{getNumberOfDaysLeft(Number(campaign[4]))}
+								{campaign && getNumberOfDaysLeft(Number(campaign[5]))}
 							</h4>
 							<p className='mt-[3px] font-epilogue font-normal text-[12px] leading-[18px] text-[#808191] sm:max-w-[120px] truncate'>
 								Days left
@@ -106,7 +113,8 @@ const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
 							</svg>
 						</div>
 						<p className='flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate'>
-							by <span className='text-[#b2b3bd]'>{campaign[0]}</span>
+							by{' '}
+							<span className='text-[#b2b3bd]'>{campaign && campaign[0]}</span>
 						</p>
 					</div>
 				</div>
@@ -115,4 +123,4 @@ const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
 	)
 }
 
-export default CampaignCard
+export default CampaignCardClient
