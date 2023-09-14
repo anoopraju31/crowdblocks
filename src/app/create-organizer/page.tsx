@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import ReactLoading from 'react-loading'
 import { Button, FormField } from '../components'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
+import { CheckOrganizerType } from '@/types'
 
 type Form = {
 	name: string
@@ -13,10 +14,6 @@ type Form = {
 	contact: string
 	profile: string
 	phone: string
-}
-
-type CheckOrganizerType = {
-	data: boolean | undefined
 }
 
 const CreateOrganizerPage = () => {
