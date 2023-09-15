@@ -1,23 +1,17 @@
 'use client'
 import { usePathname } from 'next/navigation'
-import React, { useState } from 'react'
-import { BiSearch } from 'react-icons/bi'
-import { GiHamburgerMenu } from 'react-icons/gi'
 import Link from 'next/link'
+import React, { useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import {
-	useAccount,
-	useContractRead,
-	useEnsAvatar,
-	useEnsName,
-	useWalletClient,
-} from 'wagmi'
+import { useAccount, useContractRead } from 'wagmi'
+import { BiSearch, BiUserPlus, BiLogoBitcoin } from 'react-icons/bi'
+import { GiHamburgerMenu } from 'react-icons/gi'
 import { CheckOrganizerType } from '@/types'
-import { CrowdFundingABI } from '@/abis/crowdFunding'
 import type { IconType } from 'react-icons'
 import { MdCreate } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
+import { CrowdFundingABI } from '@/abis/crowdFunding'
 
 type NavLinkProps = {
 	icon: IconType
@@ -82,76 +76,25 @@ const Navbar = () => {
 				</div>
 
 				<div className='md:flex hidden flex-row justify-center gap-4'>
-					{/* <Button btnType='button' title='Connect' styles='bg-purple-500' /> */}
 					<ConnectButton />
-
-					<Link href='/profile'>
-						<div className='w-[52px] h-[52px] rounded-full bg-[#2c2f32] flex justify-center items-center cursor-pointer'>
-							<svg x='0' y='0' width='24' height='24'>
-								<rect
-									x='0'
-									y='0'
-									width='24'
-									height='24'
-									transform='translate(6.525467147921928 -0.07667628804068606) rotate(491.2 12 12)'
-									fill='#018E74'></rect>
-								<rect
-									x='0'
-									y='0'
-									width='24'
-									height='24'
-									transform='translate(-9.540876339975153 2.016251393825418) rotate(174.8 12 12)'
-									fill='#18CAF2'></rect>
-								<rect
-									x='0'
-									y='0'
-									width='24'
-									height='24'
-									transform='translate(-6.575909483438352 19.994128215112603) rotate(223.8 12 12)'
-									fill='#FA3E00'></rect>
-							</svg>
-						</div>
-					</Link>
 				</div>
 
 				{/* Small screen navigation */}
 				<div className='md:hidden flex justify-between items-center relative'>
-					<div className='w-[40px] h-[40px] rounded-[10px] bg-[#2c2f32] flex justify-center items-center cursor-pointer'>
-						<svg x='0' y='0' width='24' height='24'>
-							<rect
-								x='0'
-								y='0'
-								width='24'
-								height='24'
-								transform='translate(6.525467147921928 -0.07667628804068606) rotate(491.2 12 12)'
-								fill='#018E74'></rect>
-							<rect
-								x='0'
-								y='0'
-								width='24'
-								height='24'
-								transform='translate(-9.540876339975153 2.016251393825418) rotate(174.8 12 12)'
-								fill='#18CAF2'></rect>
-							<rect
-								x='0'
-								y='0'
-								width='24'
-								height='24'
-								transform='translate(-6.575909483438352 19.994128215112603) rotate(223.8 12 12)'
-								fill='#FA3E00'></rect>
-						</svg>
+					<div className='text-green-500'>
+						<BiLogoBitcoin size={30} />
 					</div>
 
 					<div
 						onClick={() => setToggleDrawer((prev) => !prev)}
 						className='w-[34px] h-[34px] rounded-full text-white hover:bg-green-500 flex justify-center items-center p-2 cursor-pointer'>
-						<GiHamburgerMenu size={24} />
+						<GiHamburgerMenu size={26} />
 					</div>
 
 					<div
-						className={`absolute top-[60px] right-0 left-0 bg-[#1c1c24] rounded-[10px] z-10 shadow-secondary py-4 ${
+						className={`absolute top-[60px] right-0 left-0 bg-[#13131ac0] rounded-[10px] z-10 shadow-secondary py-4 ${
 							!toggleDrawer ? '-translate-y-[100vh]' : 'translate-y-0'
-						} transition-all duration-700`}>
+						} transition-all duration-700 backdrop-blur-xl`}>
 						<ul className='mb-4 mx-4'>
 							<NavLink
 								icon={AiFillHome}
@@ -162,7 +105,7 @@ const Navbar = () => {
 							/>
 							{isConnected && !isOrganizer && (
 								<NavLink
-									icon={IoPersonCircleOutline}
+									icon={BiUserPlus}
 									link='/create-organizer'
 									name='Register As Organizer'
 									pathname={pathname}
@@ -180,7 +123,7 @@ const Navbar = () => {
 							)}
 							{isConnected && (
 								<NavLink
-									icon={AiFillHome}
+									icon={IoPersonCircleOutline}
 									link='/profile'
 									name='Profile'
 									pathname={pathname}
@@ -189,17 +132,8 @@ const Navbar = () => {
 							)}
 						</ul>
 
-						<div className='flex mx-4'>
-							{/* <Button
-								btnType='button'
-								title='Connect'
-								styles='bg-purple-500 w-full'
-							/> */}
-							<ConnectButton
-								showBalance={false}
-								chainStatus='icon'
-								accountStatus='avatar'
-							/>
+						<div className='flex py-4 mx-4'>
+							<ConnectButton showBalance={true} />
 						</div>
 					</div>
 				</div>

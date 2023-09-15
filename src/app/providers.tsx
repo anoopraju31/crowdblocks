@@ -1,9 +1,13 @@
 'use client'
 
 import React, { ReactNode, useEffect, useState } from 'react'
-import { getDefaultWallets, RainbowKitProvider } from '@rainbow-me/rainbowkit'
+import {
+	getDefaultWallets,
+	RainbowKitProvider,
+	darkTheme,
+} from '@rainbow-me/rainbowkit'
 import { configureChains, createConfig, WagmiConfig } from 'wagmi'
-import { mainnet, polygon, sepolia, polygonMumbai } from 'wagmi/chains'
+import { mainnet, polygon, sepolia } from 'wagmi/chains'
 import { alchemyProvider } from 'wagmi/providers/alchemy'
 import { publicProvider } from 'wagmi/providers/public'
 import '@rainbow-me/rainbowkit/styles.css'
@@ -40,7 +44,15 @@ const Providers = ({ children }: ProvidersType) => {
 
 	return (
 		<WagmiConfig config={wagmiConfig}>
-			<RainbowKitProvider chains={chains}>
+			<RainbowKitProvider
+				chains={chains}
+				theme={darkTheme({
+					accentColor: 'rgb(34 197 94)',
+					accentColorForeground: 'white',
+					borderRadius: 'large',
+					fontStack: 'system',
+					overlayBlur: 'small',
+				})}>
 				{mounted && children}
 			</RainbowKitProvider>
 		</WagmiConfig>
