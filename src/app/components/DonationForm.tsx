@@ -1,10 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { Button, FormField } from '.'
-import { useAccount, useContractWrite } from 'wagmi'
+import { useAccount, useContractRead, useContractWrite } from 'wagmi'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { parseEther } from 'ethers'
 import ReactLoading from 'react-loading'
+import { CampaignType } from '@/types'
 
 type DonationFormType = {
 	campaignId: number
@@ -12,12 +13,29 @@ type DonationFormType = {
 
 const DonationForm = ({ campaignId }: DonationFormType) => {
 	const [amount, setAmount] = useState<number | string>('')
+	const [isCompleted, setIsCompleted] = useState(false)
 	const [isDisabled, setIsDisabled] = useState(false)
 	const { isConnected } = useAccount()
 	const { isLoading, isSuccess, write } = useContractWrite({
 		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
 		abi: CrowdFundingABI,
 		functionName: 'donateToCampaign',
+	})
+
+	useContractRead({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'campaigns',
+		args: [campaignId],
+		onSuccess(data: CampaignType) {
+			console.log(data)
+
+			if (data !== null) {
+				//  @ts-ignore
+				setIsCompleted(data[7])
+			}
+		},
+		watch: true,
 	})
 
 	useEffect(() => {
@@ -39,6 +57,10 @@ const DonationForm = ({ campaignId }: DonationFormType) => {
 					<p className='text-white text-xl'> Loading </p>
 					<ReactLoading type='bubbles' color='#fff' />
 				</div>
+			)}
+
+			{isCompleted && (
+				<div className='w-full h-full bg-[#1c1c24]/60 rounded-[10px] absolute top-0 left-0 right-0 flex justify-center items-center' />
 			)}
 			<p className='font-epilogue fount-medium text-[20px] pt-1 leading-[30px] text-center text-[#808191]'>
 				Fund the campaign

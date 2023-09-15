@@ -35,7 +35,7 @@ const CampaignStats = ({
 				//  @ts-ignore
 				setCollected(Number(data[6]))
 				//  @ts-ignore
-				setDaysLeft(getNumberOfDaysLeft(data[4]))
+				setDaysLeft(getNumberOfDaysLeft(Number(data[4])))
 			}
 		},
 		watch: true,
