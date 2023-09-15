@@ -1,18 +1,35 @@
-import React from 'react'
-import { Button } from '.'
+'use client'
+import React, { useEffect, useState } from 'react'
+import { Button, FormField } from '.'
+import { useAccount, useContractWrite } from 'wagmi'
+import { CrowdFundingABI } from '@/abis/crowdFunding'
 
 const DonationForm = () => {
+	const [amount, setAmount] = useState<number | string>('')
+	const [isDisabled, setIsDisabled] = useState(false)
+	const { address, isConnected } = useAccount()
+	const { isLoading, isSuccess, write } = useContractWrite({
+		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		abi: CrowdFundingABI,
+		functionName: 'createOrganizer',
+	})
+
+	useEffect(() => {
+		if (!isConnected && (amount === '' || amount === 0)) setIsDisabled(true)
+	}, [isConnected, amount])
+
+	const handleSubmit = () => {}
 	return (
 		<div className='mt-[20px] flex flex-col p-4 bg-[#1c1c24] rounded-[10px]'>
 			<p className='font-epilogue fount-medium text-[20px] pt-1 leading-[30px] text-center text-[#808191]'>
 				Fund the campaign
 			</p>
-			<div className='mt-[20px]'>
-				<input
-					type='number'
+			<div className='mt-5'>
+				<FormField
 					placeholder='ETH 0.1'
-					step='0.01'
-					className='w-full py-[10px] sm:px-[20px] px-[15px] outline-none border-[1px] border-[#3a3a43] bg-transparent font-epilogue text-white text-[18px] leading-[30px] placeholder:text-[#4b5264] rounded-[10px]'
+					inputType='number'
+					value={amount}
+					handleChange={(e) => setAmount(e.target.value)}
 				/>
 
 				<div className='my-[20px] p-4 bg-[#13131a] rounded-[10px]'>
@@ -26,8 +43,10 @@ const DonationForm = () => {
 
 				<Button
 					btnType='button'
+					isDisabled={isDisabled}
 					title='Fund Campaign'
-					styles='w-full bg-green-500'
+					styles=' w-full bg-green-500 disabled:opacity-40 disabled:text-black disabled:cursor-default'
+					handleClick={handleSubmit}
 				/>
 			</div>
 		</div>
