@@ -159,7 +159,7 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 						Fund
 					</h4>
 
-					<DonationForm />
+					<DonationForm campaignId={Number(campaignId)} />
 				</div>
 			</div>
 		</main>
