@@ -30,14 +30,14 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 						<div
 							className='absolute h-full bg-green-500 rounded'
 							style={{
-								width: `10%`,
+								width: `${(campaign[4] / campaign[5]) * 100}`,
 								maxWidth: '100%',
 							}}></div>
 					</div>
 				</div>
 
 				{/* Stats */}
-				<div className='flex md:w-[300px] w-full flex-col justify-between  gap-[30px]'>
+				<div className='flex md:w-[300px] w-full flex-col justify-between gap-[30px]'>
 					<StatBox title='Days Left' value={getNumberOfDaysLeft(campaign[4])} />
 					<StatBox title={`Raise of ${campaign[5]}ETH`} value={campaign[6]} />
 					<StatBox title='Total Backers' value={13} />
@@ -102,7 +102,7 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 
 						<div className='mt-[20px]'>
 							<p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px]'>
-								{campaign && campaign[2]}
+								{campaign[2]}
 							</p>
 						</div>
 					</div>
