@@ -150,7 +150,7 @@ const CreateCampaignPage = () => {
 					<Button
 						btnType='button'
 						title='Submit new campaign'
-						styles='bg-green-500 disabled:bg-green-300 disabled:text-black disabled:cursor-default'
+						styles='bg-green-500 disabled:opacity-40 disabled:text-black disabled:cursor-default'
 						isDisabled={isDisabled}
 						handleClick={handleSubmit}
 					/>

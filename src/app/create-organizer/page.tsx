@@ -148,7 +148,7 @@ const CreateOrganizerPage = () => {
 						title='Register'
 						isDisabled={isDisabled}
 						handleClick={handleSubmit}
-						styles='bg-green-500'
+						styles='bg-green-500 disabled:opacity-40 disabled:text-black disabled:cursor-default'
 					/>
 				</div>
 			</form>
