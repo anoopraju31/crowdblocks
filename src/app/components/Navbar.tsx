@@ -75,8 +75,12 @@ const Navbar = () => {
 					)}
 				</div>
 
-				<div className='md:flex hidden flex-row justify-center gap-4'>
+				<div className='lg:flex hidden flex-row justify-center gap-4'>
 					<ConnectButton />
+				</div>
+
+				<div className='hidden md:flex  lg:hidden flex-row justify-center gap-4'>
+					<ConnectButton showBalance={false} />
 				</div>
 
 				{/* Small screen navigation */}
@@ -92,9 +96,9 @@ const Navbar = () => {
 					</div>
 
 					<div
-						className={`absolute top-[60px] right-0 left-0 bg-[#13131ac0] rounded-[10px] z-10 shadow-secondary py-4 ${
+						className={`absolute top-[60px] right-0 left-0 bg-[#13131ac8] rounded-[10px] z-10 shadow-secondary py-4 ${
 							!toggleDrawer ? '-translate-y-[100vh]' : 'translate-y-0'
-						} transition-all duration-700 backdrop-blur-xl`}>
+						} transition-all duration-700 backdrop-blur-3xl`}>
 						<ul className='mb-4 mx-4'>
 							<NavLink
 								icon={AiFillHome}

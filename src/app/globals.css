@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+	--min-height-container: calc(100vh - 224px);
+}
+
 input[type='date']::-webkit-calendar-picker-indicator {
 	cursor: pointer;
 	filter: invert(0.8);
