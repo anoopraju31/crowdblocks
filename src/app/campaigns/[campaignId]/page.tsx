@@ -1,5 +1,5 @@
 import React from 'react'
-import { DonationForm, StatBox } from '../../components'
+import { CampaignStats, DonationForm, StatBox } from '../../components'
 import Image from 'next/image'
 import { crowdBlocksContract, getCampaign, getNumberOfDaysLeft } from '@/utils'
 
@@ -37,11 +37,12 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 				</div>
 
 				{/* Stats */}
-				<div className='flex md:w-[300px] w-full flex-col justify-between gap-[30px]'>
-					<StatBox title='Days Left' value={getNumberOfDaysLeft(campaign[4])} />
-					<StatBox title={`Raise of ${campaign[5]}ETH`} value={campaign[6]} />
-					<StatBox title='Total Backers' value={13} />
-				</div>
+				<CampaignStats
+					collectedAmount={campaign[6]}
+					targetAmount={campaign[5]}
+					numberOfDaysLeft={getNumberOfDaysLeft(campaign[4])}
+					campaignId={Number(campaignId)}
+				/>
 			</div>
 
 			<div className='mt-[60px] flex lg:flex-row flex-col gap-10'>
