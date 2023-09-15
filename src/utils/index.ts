@@ -16,3 +16,19 @@ export const crowdBlocksContract = new ethers.Contract(
 	CrowdFundingABI,
 	provider,
 )
+
+export async function getCampaign(id: string) {
+	try {
+		const response = await fetch(`http://localhost:3000/api/campaigns/${id}`)
+
+		if (!response.ok) {
+			throw new Error(`Error! status: ${response.status}`)
+		}
+
+		const result = await response.json()
+
+		return result
+	} catch (err) {
+		console.log(err)
+	}
+}
