@@ -73,7 +73,7 @@ const CreateOrganizerPage = () => {
 	}
 
 	return (
-		<main className='flex justify-center items-center flex-col m-10'>
+		<main className='flex justify-center items-center flex-col pb-20 md:m-10 border-b sm:border-b-0 border-[#3a3a43]'>
 			{isLoading && (
 				<div className='w-full h-screen bg-black/40 fixed top-0 left-0 right-0 flex justify-center items-center'>
 					<p className='text-white text-2xl'> Loading </p>
