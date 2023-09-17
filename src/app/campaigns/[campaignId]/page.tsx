@@ -30,7 +30,7 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 						<div
 							className='absolute h-full bg-green-500 rounded'
 							style={{
-								width: `${(campaign[4] / campaign[5]) * 100}`,
+								width: `${(campaign[4] / campaign[5]) * 100}%`,
 								maxWidth: '100%',
 							}}></div>
 					</div>
