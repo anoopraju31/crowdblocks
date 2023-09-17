@@ -20,6 +20,12 @@ const nextConfig = {
 				port: '',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: 'static01.nyt.com',
+				port: '',
+				pathname: '/**',
+			},
 		],
 	},
 }

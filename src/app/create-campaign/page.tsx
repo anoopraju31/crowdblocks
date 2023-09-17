@@ -76,7 +76,7 @@ const CreateCampaignPage = () => {
 				form.description,
 				[form.image],
 				timestamp,
-				form.target,
+				Number(form.target) * 10 ** 18,
 			],
 		})
 	}

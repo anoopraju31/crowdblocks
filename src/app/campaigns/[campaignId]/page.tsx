@@ -38,8 +38,8 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 
 				{/* Stats */}
 				<CampaignStats
-					collectedAmount={campaign[6]}
-					targetAmount={campaign[5]}
+					collectedAmount={campaign[6] / 10 ** 18}
+					targetAmount={campaign[5] / 10 ** 18}
 					numberOfDaysLeft={getNumberOfDaysLeft(Number(campaign[4]))}
 					campaignId={Number(campaignId)}
 				/>

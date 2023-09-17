@@ -31,9 +31,9 @@ const CampaignStats = ({
 		onSuccess(data: CampaignType) {
 			if (data !== null) {
 				//  @ts-ignore
-				setTarget(Number(data[5]))
+				setTarget(Number(data[5]) / 10 ** 18)
 				//  @ts-ignore
-				setCollected(Number(data[6]))
+				setCollected(Number(data[6]) / 10 ** 18)
 				//  @ts-ignore
 				setDaysLeft(getNumberOfDaysLeft(Number(data[4])))
 			}
@@ -43,7 +43,7 @@ const CampaignStats = ({
 	return (
 		<div className='flex md:w-[300px] w-full flex-col justify-between gap-[30px]'>
 			<StatBox title='Days Left' value={daysLeft} />
-			<StatBox title={`Raise of ${target}ETH`} value={collected} />
+			<StatBox title={`Raise of ${target} ETH`} value={collected} />
 			<StatBox title='Total Backers' value={13} />
 		</div>
 	)
