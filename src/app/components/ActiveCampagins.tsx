@@ -3,6 +3,7 @@ import { CampaignCard } from '.'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { AlchemyProvider } from 'ethers'
 import { ethers } from 'ethers'
+import { contractAddress } from '@/constants'
 
 export const revalidate = 3600
 
@@ -12,7 +13,7 @@ const ActiveCampagins = async () => {
 		process.env.NEXT_PUBLIC_ALCHEMY_ID,
 	)
 	const crowdBlocksContract = new ethers.Contract(
-		'0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		contractAddress,
 		CrowdFundingABI,
 		provider,
 	)

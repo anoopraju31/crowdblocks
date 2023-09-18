@@ -1,5 +1,6 @@
 'use client'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
+import { contractAddress } from '@/constants'
 import { getNumberOfDaysLeft } from '@/utils'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -19,13 +20,13 @@ type CampaignType = {
 
 const CampaignCardClient = ({ campaignId }: CampaignCardProps) => {
 	const { data: campaign }: CampaignType = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'campaigns',
 		args: [campaignId],
 	})
 	const campaignImagesRead = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'getCampaignImage',
 		args: [campaignId],

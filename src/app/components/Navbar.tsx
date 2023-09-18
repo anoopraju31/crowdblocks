@@ -12,6 +12,7 @@ import { MdCreate } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
+import { contractAddress } from '@/constants'
 
 type NavLinkProps = {
 	icon: IconType
@@ -47,7 +48,7 @@ const Navbar = () => {
 	const pathname = usePathname()
 	const { address, isConnected } = useAccount()
 	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'isOrganizer',
 		args: [address],

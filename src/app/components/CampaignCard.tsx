@@ -1,4 +1,5 @@
 import { CrowdFundingABI } from '@/abis/crowdFunding'
+import { contractAddress } from '@/constants'
 import { getNumberOfDaysLeft } from '@/utils'
 import { ethers } from 'ethers'
 import { AlchemyProvider } from 'ethers'
@@ -17,7 +18,7 @@ const CampaignCard = async ({ campaignId }: CampaignCardProps) => {
 		process.env.NEXT_PUBLIC_ALCHEMY_ID,
 	)
 	const crowdBlocksContract = new ethers.Contract(
-		'0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		contractAddress,
 		CrowdFundingABI,
 		provider,
 	)

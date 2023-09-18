@@ -26,3 +26,5 @@ export const navlinks = [
 		link: '/profile',
 	},
 ]
+
+export const contractAddress = '0x03a1Aa5a31e1578CA0b0c71168c8263667068850'

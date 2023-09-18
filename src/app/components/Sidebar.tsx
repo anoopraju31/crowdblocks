@@ -10,6 +10,7 @@ import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { CheckOrganizerType } from '@/types'
+import { contractAddress } from '@/constants'
 
 type Icon = {
 	styles?: string
@@ -38,7 +39,7 @@ const Sidebar = () => {
 	const { address, isConnected } = useAccount()
 	const pathname = usePathname()
 	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'isOrganizer',
 		args: [address],
