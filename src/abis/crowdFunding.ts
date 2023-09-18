@@ -283,6 +283,42 @@ export const CrowdFundingABI = [
 				type: 'uint256',
 			},
 		],
+		name: 'getCampaignContributions',
+		outputs: [
+			{
+				components: [
+					{
+						internalType: 'address',
+						name: 'contributor',
+						type: 'address',
+					},
+					{
+						internalType: 'uint256',
+						name: 'contribution',
+						type: 'uint256',
+					},
+					{
+						internalType: 'uint256',
+						name: 'date',
+						type: 'uint256',
+					},
+				],
+				internalType: 'struct CrowdBlocks.Contribution[]',
+				name: '',
+				type: 'tuple[]',
+			},
+		],
+		stateMutability: 'view',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_id',
+				type: 'uint256',
+			},
+		],
 		name: 'getCampaignImage',
 		outputs: [
 			{
