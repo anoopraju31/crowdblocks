@@ -190,6 +190,20 @@ contract CrowdBlocks {
     }
 
     /**
+     * @dev Retrieve the contributions made to a specific campaign.
+     *
+     * This function allows you to query the contributions made to a campaign identified by its ID.
+     *
+     * @param _id The unique identifier of the campaign.
+     * @return An array of `Contribution` structs representing the contributions made to the campaign.
+     */
+    function getCampaignContributions(
+        uint _id
+    ) public view returns (Contribution[] memory) {
+        return campaigns[_id].contributions;
+    }
+
+    /**
      * @notice Retrieves the list of campaign IDs organized by a specific organizer.
      * @param _address The address of the organizer whose campaigns you want to retrieve.
      * @return An array of campaign IDs organized by the specified organizer.
