@@ -13,7 +13,7 @@ type Form = {
 	description: string
 	target: string
 	deadline: string
-	image: string
+	images: File[]
 }
 
 const CreateCampaignPage = () => {
@@ -22,7 +22,7 @@ const CreateCampaignPage = () => {
 		description: '',
 		target: '',
 		deadline: '',
-		image: '',
+		images: [],
 	})
 	const [isDisabled, setIsDisabled] = useState(false)
 
@@ -51,7 +51,7 @@ const CreateCampaignPage = () => {
 			form.description === '' ||
 			form.target === '' ||
 			form.deadline === '' ||
-			form.image === ''
+			form.images.length === 0
 
 		setIsDisabled(checkFill())
 	}, [form])
@@ -64,7 +64,14 @@ const CreateCampaignPage = () => {
 		fieldName: string,
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
 	) => {
-		setForm({ ...form, [fieldName]: e.target.value })
+		if (fieldName !== 'images')
+			setForm({ ...form, [fieldName]: e.target.value })
+		else {
+			const target = e.target as HTMLInputElement
+			const files = Array.from(target.files as FileList)
+			setForm({ ...form, [fieldName]: files })
+			console.log(files)
+		}
 	}
 
 	const handleSubmit = () => {
@@ -75,7 +82,7 @@ const CreateCampaignPage = () => {
 			args: [
 				form.title,
 				form.description,
-				[form.image],
+				form.images,
 				timestamp,
 				Number(form.target) * 10 ** 18,
 			],
@@ -141,9 +148,9 @@ const CreateCampaignPage = () => {
 				<FormField
 					labelName='Campaign image *'
 					placeholder='Place image URL of your campaign'
-					inputType='url'
-					value={form.image}
-					handleChange={(e) => handleFormFieldChange('image', e)}
+					inputType='file'
+					// value={form.images}
+					handleChange={(e) => handleFormFieldChange('images', e)}
 				/>
 
 				{/* Submit Button */}

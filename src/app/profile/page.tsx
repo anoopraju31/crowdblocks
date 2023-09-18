@@ -5,23 +5,10 @@ import React, { useEffect } from 'react'
 import { useAccount, useContractRead } from 'wagmi'
 import { CampaignCardClient } from '../components'
 import Image from 'next/image'
+import { contractAddress } from '@/constants'
 
 type CheckOrganizerType = {
 	data?: boolean | undefined
-	// error?: Error
-	// isIdle: boolean
-	// isLoading: boolean
-	// isFetching: boolean
-	// isSuccess: boolean
-	// isError: boolean
-	// isFetched: boolean
-	// isFetchedAfterMount: boolean
-	// isRefetching: boolean
-	// refetch: (options: {
-	//   throwOnError: boolean
-	//   cancelRefetch: boolean
-	// }) => Promise<Boolean>
-	// status: 'idle' | 'error' | 'loading' | 'success'
 }
 
 type OrganizerType = {
@@ -35,20 +22,20 @@ type CampaignsOrganized = {
 const ProfilePage = () => {
 	const { address, isConnected } = useAccount()
 	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'isOrganizer',
 		args: [address],
 	})
 	const { data: organizer }: OrganizerType = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'organizers',
 		args: [address],
 	})
 
 	const { data: campaignsOrganized }: CampaignsOrganized = useContractRead({
-		address: '0x4d0b4A2014e64d76CcF0F2E1898bAeba440F7C02',
+		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'getIdofCampaignsOrganizedByOrganizer',
 		args: [address],
