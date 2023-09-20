@@ -10,10 +10,16 @@ export async function GET(req: Request) {
 	const address = searchParams.get('address')
 
 	let organizer = await crowdBlocksContract.organizers(address)
-	console.log(organizer)
+	let campaigns =
+		await crowdBlocksContract.getIdofCampaignsOrganizedByOrganizer(address)
+	console.log(campaigns)
 	organizer = organizer.map((item: any) =>
 		typeof item === 'bigint' ? Number(item) : item,
 	)
 
-	return NextResponse.json({ organizer })
+	campaigns = campaigns.map((item: any) =>
+		typeof item === 'bigint' ? Number(item) : item,
+	)
+
+	return NextResponse.json({ organizer, campaigns })
 }
