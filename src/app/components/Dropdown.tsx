@@ -11,6 +11,7 @@ type ItemProps = {
 type DropdownProps = {
 	title: string
 	values: string[]
+	label?: string
 	isOutlined?: boolean
 	handleChange?: (value: string) => void
 }
@@ -26,6 +27,7 @@ const Item = ({ handleClick, title }: ItemProps) => (
 const Dropdown = ({
 	title,
 	values,
+	label,
 	isOutlined,
 	handleChange,
 }: DropdownProps) => {
@@ -38,11 +40,16 @@ const Dropdown = ({
 	}
 	return (
 		<div className='relative'>
+			{isOutlined && label && (
+				<div className='font-epilogue font-medium text-[14px] leading-[22px] mb-[10px] text-white'>
+					{label}
+				</div>
+			)}
 			{isOutlined ? (
 				<button
 					id='select'
 					data-dropdown-toggle='select'
-					className='w-full py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] focus:border-green-500 bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] flex justify-between items-center'
+					className='w-full md:w-56 py-[15px] sm:px-[25px] px-[15px] outline-none border-[1px] border-[#3a3a43] focus:border-green-500 bg-transparent font-epilogue text-white text-[14px] placeholder:text-[#4b5264] rounded-[10px] flex justify-between items-center'
 					type='button'
 					onClick={() => setIsOpenDropdown((prev) => !prev)}>
 					{value}
@@ -70,8 +77,8 @@ const Dropdown = ({
 			<div
 				id='dropdown'
 				className={`z-10 ${
-					isOpenDropdown ? 'translate-y-0' : '-translate-y-[100vh]'
-				} absolute top-[60px] left-0 bg-[#2c2f32] divide-y divide-gray-100 rounded-lg shadow w-full max-w-44 `}>
+					isOpenDropdown ? 'translate-y-0' : '-translate-y-[200vh]'
+				} absolute top-[100px] left-0 bg-[#2c2f32] divide-y divide-gray-100 rounded-lg shadow w-full max-w-44 `}>
 				<ul
 					className='text-sm text-gray-700 dark:text-gray-200'
 					aria-labelledby='dropdownDefaultButton'>

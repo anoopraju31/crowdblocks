@@ -140,7 +140,7 @@ const Navbar = () => {
 							<div className='hidden sm:block'>
 								<ConnectButton showBalance={true} />
 							</div>
-							<div className='hidden sm:block'>
+							<div className='block sm:hidden'>
 								<ConnectButton showBalance={false} />
 							</div>
 						</div>

@@ -73,6 +73,7 @@ const CreateCampaignPage = () => {
 		}
 	}
 
+	// handle category change
 	const handleDropdown = (value: string) => {
 		setForm((prevForm) => ({ ...prevForm, category: value }))
 	}
@@ -121,14 +122,6 @@ const CreateCampaignPage = () => {
 
 			<form className='w-full mt-[65px] flex flex-col gap-[30px]'>
 				<div className='flex flex-col md:flex-row gap-[40px]'>
-					{/* Category */}
-					<Dropdown
-						title='Category'
-						values={category}
-						isOutlined
-						handleChange={handleDropdown}
-					/>
-
 					{/* Title */}
 					<FormField
 						labelName='Campaign Title *'
@@ -136,6 +129,15 @@ const CreateCampaignPage = () => {
 						inputType='text'
 						value={form.title}
 						handleChange={(e) => handleFormFieldChange('title', e)}
+					/>
+
+					{/* Category */}
+					<Dropdown
+						title='Category'
+						values={category}
+						label='Category *'
+						isOutlined
+						handleChange={handleDropdown}
 					/>
 				</div>
 
