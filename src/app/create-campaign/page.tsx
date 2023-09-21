@@ -1,14 +1,14 @@
 'use client'
 import React, { useEffect, useState } from 'react'
+import { redirect } from 'next/navigation'
 import ReactLoading from 'react-loading'
-import { Button, FormField } from '../components'
 import { useAccount, useContractWrite } from 'wagmi'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { redirect } from 'next/navigation'
 import { contractAddress } from '@/constants'
 import { useOrganizer } from '../hooks'
+import { Button, FormField } from '../components'
 
-type Form = {
+type CampaignForm = {
 	title: string
 	description: string
 	target: string
@@ -17,7 +17,7 @@ type Form = {
 }
 
 const CreateCampaignPage = () => {
-	const [form, setForm] = useState<Form>({
+	const [form, setForm] = useState<CampaignForm>({
 		title: '',
 		description: '',
 		target: '',
@@ -27,18 +27,20 @@ const CreateCampaignPage = () => {
 	const [isDisabled, setIsDisabled] = useState(false)
 	const { isConnected } = useAccount()
 	const [isOrganizer] = useOrganizer()
-	const { data, isLoading, isSuccess, write } = useContractWrite({
+	const { isLoading, isSuccess, write } = useContractWrite({
 		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'createCampaign',
 	})
 
+	// prevent unauthorized access
 	useEffect(() => {
 		if (!isConnected || !isOrganizer) {
 			redirect('/')
 		}
 	}, [isConnected, isOrganizer])
 
+	// check if all fields are filled or not
 	useEffect(() => {
 		const checkFill = () =>
 			form.title === '' ||
@@ -50,10 +52,12 @@ const CreateCampaignPage = () => {
 		setIsDisabled(checkFill())
 	}, [form])
 
+	// if transactions successful redirect to home
 	useEffect(() => {
 		if (isSuccess) redirect('/')
 	}, [isSuccess])
 
+	// handle form change
 	const handleFormFieldChange = (
 		fieldName: string,
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
@@ -68,6 +72,7 @@ const CreateCampaignPage = () => {
 		}
 	}
 
+	// Submit form data
 	const handleSubmit = () => {
 		const date = new Date(form.deadline)
 		const timestamp = date.getTime() / 1000
@@ -143,7 +148,6 @@ const CreateCampaignPage = () => {
 					labelName='Campaign image *'
 					placeholder='Place image URL of your campaign'
 					inputType='file'
-					// value={form.images}
 					handleChange={(e) => handleFormFieldChange('images', e)}
 				/>
 
