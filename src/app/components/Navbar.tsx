@@ -8,7 +8,7 @@ import { BiSearch, BiUserPlus, BiLogoBitcoin } from 'react-icons/bi'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { CheckOrganizerType } from '@/types'
 import type { IconType } from 'react-icons'
-import { MdCreate } from 'react-icons/md'
+import { MdCreate, MdCampaign } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
@@ -87,7 +87,7 @@ const Navbar = () => {
 				{/* Small screen navigation */}
 				<div className='md:hidden flex justify-between items-center relative'>
 					<div className='text-green-500'>
-						<BiLogoBitcoin size={30} />
+						<BiLogoBitcoin size={36} />
 					</div>
 
 					<div
@@ -105,6 +105,13 @@ const Navbar = () => {
 								icon={AiFillHome}
 								link='/'
 								name='Home'
+								pathname={pathname}
+								toggle={closeDrawer}
+							/>
+							<NavLink
+								icon={MdCampaign}
+								link='/campaigns'
+								name='Campaigns'
 								pathname={pathname}
 								toggle={closeDrawer}
 							/>
