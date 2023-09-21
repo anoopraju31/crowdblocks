@@ -137,7 +137,12 @@ const Navbar = () => {
 						</ul>
 
 						<div className='flex py-4 mx-4'>
-							<ConnectButton showBalance={true} />
+							<div className='hidden sm:block'>
+								<ConnectButton showBalance={true} />
+							</div>
+							<div className='hidden sm:block'>
+								<ConnectButton showBalance={false} />
+							</div>
 						</div>
 					</div>
 				</div>

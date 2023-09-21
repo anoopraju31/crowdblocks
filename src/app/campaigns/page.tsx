@@ -6,11 +6,11 @@ import { categories, status } from '@/constants'
 const CampaignsPage = () => {
 	return (
 		<main className='my-8 md:md-14'>
-			<div className='flex justify-between items-center'>
+			<div className='flex flex-col md:flex-row gap-4 justify-between items-center'>
 				<h1 className='font-epilogue font-semibold text-[18px] text-white text-left'>
 					All Campaigns
 				</h1>
-				<div className='flex gap-4'>
+				<div className='flex flex-col sm:flex-row gap-4'>
 					<Dropdown title='status' values={status} />
 					<Dropdown title='category' values={categories} />
 				</div>
