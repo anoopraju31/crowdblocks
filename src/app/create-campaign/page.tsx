@@ -4,11 +4,12 @@ import { redirect } from 'next/navigation'
 import ReactLoading from 'react-loading'
 import { useAccount, useContractWrite } from 'wagmi'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { contractAddress } from '@/constants'
+import { category, contractAddress } from '@/constants'
 import { useOrganizer } from '../hooks'
-import { Button, FormField } from '../components'
+import { Button, Dropdown, FormField } from '../components'
 
 type CampaignForm = {
+	category: string
 	title: string
 	description: string
 	target: string
@@ -18,6 +19,7 @@ type CampaignForm = {
 
 const CreateCampaignPage = () => {
 	const [form, setForm] = useState<CampaignForm>({
+		category: '',
 		title: '',
 		description: '',
 		target: '',
@@ -63,13 +65,16 @@ const CreateCampaignPage = () => {
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
 	) => {
 		if (fieldName !== 'images')
-			setForm({ ...form, [fieldName]: e.target.value })
+			setForm((prevForm) => ({ ...prevForm, [fieldName]: e.target.value }))
 		else {
 			const target = e.target as HTMLInputElement
 			const files = Array.from(target.files as FileList)
-			setForm({ ...form, [fieldName]: files })
-			console.log(files)
+			setForm((prevForm) => ({ ...prevForm, [fieldName]: files }))
 		}
+	}
+
+	const handleDropdown = (value: string) => {
+		setForm((prevForm) => ({ ...prevForm, category: value }))
 	}
 
 	// Submit form data
@@ -79,6 +84,7 @@ const CreateCampaignPage = () => {
 
 		write({
 			args: [
+				form.category,
 				form.title,
 				form.description,
 				form.images,
@@ -86,6 +92,15 @@ const CreateCampaignPage = () => {
 				Number(form.target) * 10 ** 18,
 			],
 		})
+
+		// console.log([
+		// 	form.category,
+		// 	form.title,
+		// 	form.description,
+		// 	form.images,
+		// 	timestamp,
+		// 	Number(form.target) * 10 ** 18,
+		// ])
 	}
 
 	return (
@@ -105,14 +120,24 @@ const CreateCampaignPage = () => {
 			</div>
 
 			<form className='w-full mt-[65px] flex flex-col gap-[30px]'>
-				{/* Title */}
-				<FormField
-					labelName='Campaign Title *'
-					placeholder='Write a title'
-					inputType='text'
-					value={form.title}
-					handleChange={(e) => handleFormFieldChange('title', e)}
-				/>
+				<div className='flex flex-col md:flex-row gap-[40px]'>
+					{/* Category */}
+					<Dropdown
+						title='Category'
+						values={category}
+						isOutlined
+						handleChange={handleDropdown}
+					/>
+
+					{/* Title */}
+					<FormField
+						labelName='Campaign Title *'
+						placeholder='Write a title'
+						inputType='text'
+						value={form.title}
+						handleChange={(e) => handleFormFieldChange('title', e)}
+					/>
+				</div>
 
 				{/* Description */}
 				<FormField

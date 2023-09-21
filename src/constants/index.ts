@@ -30,4 +30,27 @@ export const navlinks = [
 export const contractAddress = '0x03a1Aa5a31e1578CA0b0c71168c8263667068850'
 
 export const status = ['all', 'active', 'closed']
-export const categories = ['all', 'healthcare', 'education', 'environment']
+export const categories = [
+	'all',
+	'Healthcare',
+	'Education',
+	'Environment',
+	'Technology',
+	'Art & Science',
+	'Social Causes',
+	'Animal Welfare',
+	'Sports',
+	'Communal',
+]
+
+export const category = [
+	'Healthcare',
+	'Education',
+	'Environment',
+	'Technology',
+	'Art & Science',
+	'Social Causes',
+	'Animal Welfare',
+	'Sports',
+	'Communal',
+]
