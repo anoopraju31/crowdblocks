@@ -1,5 +1,7 @@
+'use client'
 import React from 'react'
 import { Dropdown } from '../components'
+import { categories, status } from '@/constants'
 
 const CampaignsPage = () => {
 	return (
@@ -9,8 +11,8 @@ const CampaignsPage = () => {
 					All Campaigns
 				</h1>
 				<div className='flex gap-4'>
-					<Dropdown />
-					<Dropdown />
+					<Dropdown title='status' values={status} />
+					<Dropdown title='category' values={categories} />
 				</div>
 			</div>
 			CampaignsPage
