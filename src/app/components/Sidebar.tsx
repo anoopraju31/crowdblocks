@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation'
 import { useAccount, useContractRead } from 'wagmi'
 import type { IconType } from 'react-icons'
 import { BiLogoBitcoin, BiUserPlus } from 'react-icons/bi'
-import { MdCreate } from 'react-icons/md'
+import { MdCreate, MdCampaign } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
@@ -56,23 +56,21 @@ const Sidebar = () => {
 
 			<div className='flex-1 flex  flex-col justify-between items-center bg-[#1c1c24] rounded-xl px-2 py-4 mt-12'>
 				<div className='flex flex-col justify-center items-center gap-3'>
+					<Icon icon={AiFillHome} link='/' isActive={pathname == '/'} />
 					<Icon
-						key='Home'
-						icon={AiFillHome}
-						link='/'
-						isActive={pathname == '/'}
+						icon={MdCampaign}
+						link='/campaigns'
+						isActive={pathname == '/campaigns'}
 					/>
 					{isOrganizer && (
 						<Icon
-							key='Create Campaign'
 							icon={MdCreate}
 							link='/create-campaign'
 							isActive={pathname == '/create-campaign'}
 						/>
 					)}
-					{!isOrganizer && (
+					{!isOrganizer && isConnected && (
 						<Icon
-							key='Create Organizer'
 							icon={BiUserPlus}
 							link='/create-organizer'
 							isActive={pathname == '/create-organizer'}
@@ -80,7 +78,6 @@ const Sidebar = () => {
 					)}
 					{isConnected && (
 						<Icon
-							key='Profile'
 							icon={IoPersonCircleOutline}
 							link='/profile'
 							isActive={pathname == '/profile'}
