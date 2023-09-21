@@ -2,15 +2,13 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { useAccount, useContractRead } from 'wagmi'
+import { useAccount } from 'wagmi'
 import type { IconType } from 'react-icons'
 import { BiLogoBitcoin, BiUserPlus } from 'react-icons/bi'
 import { MdCreate, MdCampaign } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
-import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { CheckOrganizerType } from '@/types'
-import { contractAddress } from '@/constants'
+import { useOrganizer } from '../hooks'
 
 type Icon = {
 	styles?: string
@@ -36,15 +34,9 @@ const Icon = ({ styles, icon, link, isActive, disabled }: Icon) => {
 }
 
 const Sidebar = () => {
-	const { address, isConnected } = useAccount()
+	const { isConnected } = useAccount()
+	const [isOrganizer] = useOrganizer()
 	const pathname = usePathname()
-	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: contractAddress,
-		abi: CrowdFundingABI,
-		functionName: 'isOrganizer',
-		args: [address],
-		watch: true,
-	})
 
 	return (
 		<div className='flex justify-between items-center flex-col sticky top-5 h-[93vh]'>

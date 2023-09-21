@@ -3,16 +3,14 @@ import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { useAccount, useContractRead } from 'wagmi'
+import { useAccount } from 'wagmi'
 import { BiSearch, BiUserPlus, BiLogoBitcoin } from 'react-icons/bi'
 import { GiHamburgerMenu } from 'react-icons/gi'
-import { CheckOrganizerType } from '@/types'
 import type { IconType } from 'react-icons'
 import { MdCreate, MdCampaign } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
-import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { contractAddress } from '@/constants'
+import { useOrganizer } from '../hooks'
 
 type NavLinkProps = {
 	icon: IconType
@@ -44,16 +42,10 @@ const NavLink = ({ icon, name, link, pathname, toggle }: NavLinkProps) => {
 }
 
 const Navbar = () => {
-	const [toggleDrawer, setToggleDrawer] = useState(false)
+	const { isConnected } = useAccount()
+	const [isOrganizer] = useOrganizer()
 	const pathname = usePathname()
-	const { address, isConnected } = useAccount()
-	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: contractAddress,
-		abi: CrowdFundingABI,
-		functionName: 'isOrganizer',
-		args: [address],
-		watch: true,
-	})
+	const [toggleDrawer, setToggleDrawer] = useState(false)
 	const closeDrawer = () => setToggleDrawer(false)
 
 	return (

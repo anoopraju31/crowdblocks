@@ -2,11 +2,11 @@
 import React, { useEffect, useState } from 'react'
 import ReactLoading from 'react-loading'
 import { Button, FormField } from '../components'
-import { useAccount, useContractRead, useContractWrite } from 'wagmi'
+import { useAccount, useContractWrite } from 'wagmi'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { redirect } from 'next/navigation'
-import { CheckOrganizerType } from '@/types'
 import { contractAddress } from '@/constants'
+import { useOrganizer } from '../hooks'
 
 type Form = {
 	title: string
@@ -25,14 +25,8 @@ const CreateCampaignPage = () => {
 		images: [],
 	})
 	const [isDisabled, setIsDisabled] = useState(false)
-
-	const { address, isConnected } = useAccount()
-	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: contractAddress,
-		abi: CrowdFundingABI,
-		functionName: 'isOrganizer',
-		args: [address],
-	})
+	const { isConnected } = useAccount()
+	const [isOrganizer] = useOrganizer()
 	const { data, isLoading, isSuccess, write } = useContractWrite({
 		address: contractAddress,
 		abi: CrowdFundingABI,

@@ -6,10 +6,7 @@ import { useAccount, useContractRead } from 'wagmi'
 import { CampaignCardClient } from '../components'
 import Image from 'next/image'
 import { contractAddress } from '@/constants'
-
-type CheckOrganizerType = {
-	data?: boolean | undefined
-}
+import { useOrganizer } from '../hooks'
 
 type OrganizerType = {
 	data: [string, string, string, string, string, BigInt, boolean] | undefined
@@ -21,12 +18,7 @@ type CampaignsOrganized = {
 
 const ProfilePage = () => {
 	const { address, isConnected } = useAccount()
-	const { data: isOrganizer }: CheckOrganizerType = useContractRead({
-		address: contractAddress,
-		abi: CrowdFundingABI,
-		functionName: 'isOrganizer',
-		args: [address],
-	})
+	const [isOrganizer] = useOrganizer()
 	const { data: organizer }: OrganizerType = useContractRead({
 		address: contractAddress,
 		abi: CrowdFundingABI,
