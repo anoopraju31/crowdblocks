@@ -1,8 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
-import ReactLoading from 'react-loading'
+import Image from 'next/image'
 import { useAccount, useContractWrite } from 'wagmi'
+import { Web3Storage } from 'web3.storage'
+import ReactLoading from 'react-loading'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { category, contractAddress } from '@/constants'
 import { useOrganizer } from '../hooks'
@@ -27,12 +29,18 @@ const CreateCampaignPage = () => {
 		images: [],
 	})
 	const [isDisabled, setIsDisabled] = useState(false)
+	const [isUploading, setIsuploading] = useState(false)
+	const [images, setImages] = useState<string[]>([])
 	const { isConnected } = useAccount()
 	const [isOrganizer] = useOrganizer()
 	const { isLoading, isSuccess, write } = useContractWrite({
 		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'createCampaign',
+		onSettled(data, error) {
+			setIsuploading(false)
+			console.log('Settled', { data, error })
+		},
 	})
 
 	// prevent unauthorized access
@@ -43,16 +51,16 @@ const CreateCampaignPage = () => {
 	}, [isConnected, isOrganizer])
 
 	// check if all fields are filled or not
-	useEffect(() => {
-		const checkFill = () =>
-			form.title === '' ||
-			form.description === '' ||
-			form.target === '' ||
-			form.deadline === '' ||
-			form.images.length === 0
+	// useEffect(() => {
+	// 	const checkFill = () =>
+	// 		form.title === '' ||
+	// 		form.description === '' ||
+	// 		form.target === '' ||
+	// 		form.deadline === '' ||
+	// 		form.images.length === 0
 
-		setIsDisabled(checkFill())
-	}, [form])
+	// 	setIsDisabled(checkFill())
+	// }, [form])
 
 	// if transactions successful redirect to home
 	useEffect(() => {
@@ -79,36 +87,41 @@ const CreateCampaignPage = () => {
 	}
 
 	// Submit form data
-	const handleSubmit = () => {
+	const handleSubmit = async () => {
+		setIsuploading(true)
 		const date = new Date(form.deadline)
 		const timestamp = date.getTime() / 1000
 
+		const client = new Web3Storage({
+			token: process.env.NEXT_PUBLIC_WEB3_STORAGE_API_KEY,
+		})
+		const cid = await client.put(form.images)
+		const ipfsLinks = await form.images.map(
+			(image) => `https://${cid}.ipfs.dweb.link/${image.name}`,
+		)
+
+		if (ipfsLinks.length === form.images.length) setIsuploading(false)
+
 		write({
 			args: [
-				form.category,
+				// form.category,
 				form.title,
 				form.description,
-				form.images,
+				ipfsLinks,
 				timestamp,
 				Number(form.target) * 10 ** 18,
 			],
 		})
-
-		// console.log([
-		// 	form.category,
-		// 	form.title,
-		// 	form.description,
-		// 	form.images,
-		// 	timestamp,
-		// 	Number(form.target) * 10 ** 18,
-		// ])
 	}
 
 	return (
 		<main className='flex justify-center items-center flex-col pb-20 md:m-10 border-b sm:border-b-0 border-[#3a3a43]'>
-			{isLoading && (
+			{(isLoading || isUploading) && (
 				<div className='w-full h-screen bg-black/40 fixed top-0 left-0 right-0 flex justify-center items-center'>
-					<p className='text-white text-2xl'> Loading </p>
+					<p className='text-white text-2xl'>
+						{' '}
+						{isUploading ? 'Uploading images to ipfs' : 'Loading'}
+					</p>
 					<ReactLoading type='bubbles' color='#fff' />
 				</div>
 			)}
@@ -189,6 +202,11 @@ const CreateCampaignPage = () => {
 					/>
 				</div>
 			</form>
+
+			{images.length &&
+				images.map((image) => (
+					<Image key={image} src={image} alt='' width={300} height={200} />
+				))}
 		</main>
 	)
 }

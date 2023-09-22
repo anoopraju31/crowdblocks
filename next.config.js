@@ -26,6 +26,13 @@ const nextConfig = {
 				port: '',
 				pathname: '/**',
 			},
+			{
+				protocol: 'https',
+				hostname: '*.ipfs.dweb.link',
+				port: '',
+				pathname: '/**',
+			},
+			//
 		],
 	},
 }

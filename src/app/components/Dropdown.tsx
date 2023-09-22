@@ -78,7 +78,9 @@ const Dropdown = ({
 				id='dropdown'
 				className={`z-10 ${
 					isOpenDropdown ? 'translate-y-0' : '-translate-y-[200vh]'
-				} absolute top-[100px] left-0 bg-[#2c2f32] divide-y divide-gray-100 rounded-lg shadow w-full max-w-44 `}>
+				} absolute ${
+					isOutlined ? 'top-[100px]' : 'top-[60px]'
+				} left-0 bg-[#2c2f32] divide-y divide-gray-100 rounded-lg shadow w-full max-w-44 `}>
 				<ul
 					className='text-sm text-gray-700 dark:text-gray-200'
 					aria-labelledby='dropdownDefaultButton'>
