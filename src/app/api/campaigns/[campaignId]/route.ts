@@ -8,11 +8,18 @@ export async function GET(
 	const campaignId = Number(params.campaignId)
 	let campaign = await crowdBlocksContract.campaigns(campaignId)
 	let campaignImage = await crowdBlocksContract.getCampaignImages(campaignId)
-	// console.log(campaignImage)
+	let contributions = await crowdBlocksContract.getCampaignContributions(
+		campaignId,
+	)
 
 	campaign = campaign.map((item: any) =>
 		typeof item === 'bigint' ? Number(item) : item,
 	)
 
-	return NextResponse.json({ message: 'OK', campaign, campaignImage })
+	return NextResponse.json({
+		message: 'OK',
+		campaign,
+		campaignImage,
+		contributions,
+	})
 }
