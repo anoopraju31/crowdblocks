@@ -1,6 +1,5 @@
 import React from 'react'
-import { CampaignStats, DonationForm, StatBox } from '../../components'
-import Image from 'next/image'
+import { CampaignStats, Carousel, DonationForm } from '../../components'
 import { crowdBlocksContract, getCampaign, getNumberOfDaysLeft } from '@/utils'
 
 type PageProps = {
@@ -18,13 +17,8 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 			<div className='w-full max-w-7xl px-4 md:px-6 lg:px-8 xl:px-0 mx-auto flex md:flex-row flex-col mt-10 gap-[30px]'>
 				<div className='flex-1 flex-col'>
 					{/* Images */}
-					<Image
-						src={campaignImage[0]}
-						alt='campaign'
-						width={600}
-						height={400}
-						className='w-full h-[410px] object-cover rounded-xl'
-					/>
+					<Carousel />
+
 					{/* Progress */}
 					<div className='relative w-full h-[5px] bg-zinc-500 rounded mt-4'>
 						<div
