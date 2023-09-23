@@ -4,8 +4,8 @@ import { useState } from 'react'
 import { IoMdArrowDropdown, IoMdArrowDropup } from 'react-icons/io'
 
 type ItemProps = {
-	handleClick: () => void
 	title: string
+	handleClick: () => void
 }
 
 type DropdownProps = {
@@ -13,10 +13,10 @@ type DropdownProps = {
 	values: string[]
 	label?: string
 	isOutlined?: boolean
-	handleChange?: (value: string) => void
+	handleChange?: (value: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) => void
 }
 
-const Item = ({ handleClick, title }: ItemProps) => (
+const Item = ({ title, handleClick }: ItemProps) => (
 	<li onClick={handleClick}>
 		<p className='block rounded px-4 py-2 hover:bg-green-500 dark:hover:text-white'>
 			{title}
@@ -33,10 +33,13 @@ const Dropdown = ({
 }: DropdownProps) => {
 	const [isOpenDropdown, setIsOpenDropdown] = useState(false)
 	const [value, setValue] = useState<string>(title)
-	const handleClick = (value: string) => {
+	const handleClick = (
+		value: string,
+		id: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8,
+	) => {
 		setIsOpenDropdown(false)
 		setValue(value)
-		if (isOutlined && handleChange) handleChange(value)
+		if (isOutlined && handleChange) handleChange(id)
 	}
 	return (
 		<div className='relative'>
@@ -84,11 +87,12 @@ const Dropdown = ({
 				<ul
 					className='text-sm text-gray-700 dark:text-gray-200'
 					aria-labelledby='dropdownDefaultButton'>
-					{values.map((item) => (
+					{values.map((item: string, idx: number) => (
 						<Item
-							key={item}
+							key={idx}
 							title={item}
-							handleClick={() => handleClick(item)}
+							// @ts-ignore
+							handleClick={() => handleClick(item, idx)}
 						/>
 					))}
 				</ul>

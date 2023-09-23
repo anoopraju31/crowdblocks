@@ -44,13 +44,13 @@ export const categories = [
 ]
 
 export const category = [
-	'Healthcare',
+	'Animal Welfare',
+	'Art & Science',
+	'Communal',
 	'Education',
 	'Environment',
-	'Technology',
-	'Art & Science',
+	'Healthcare',
 	'Social Causes',
-	'Animal Welfare',
 	'Sports',
-	'Communal',
+	'Technology',
 ]

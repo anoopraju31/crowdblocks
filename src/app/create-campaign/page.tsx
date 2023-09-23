@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
 import Image from 'next/image'
 import { useAccount, useContractWrite } from 'wagmi'
+//@ts-ignore
 import { Web3Storage } from 'web3.storage'
 import ReactLoading from 'react-loading'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
@@ -11,7 +12,7 @@ import { useOrganizer } from '../hooks'
 import { Button, Dropdown, FormField } from '../components'
 
 type CampaignForm = {
-	category: string
+	category: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | null
 	title: string
 	description: string
 	target: string
@@ -21,7 +22,7 @@ type CampaignForm = {
 
 const CreateCampaignPage = () => {
 	const [form, setForm] = useState<CampaignForm>({
-		category: '',
+		category: null,
 		title: '',
 		description: '',
 		target: '',
@@ -51,16 +52,17 @@ const CreateCampaignPage = () => {
 	}, [isConnected, isOrganizer])
 
 	// check if all fields are filled or not
-	// useEffect(() => {
-	// 	const checkFill = () =>
-	// 		form.title === '' ||
-	// 		form.description === '' ||
-	// 		form.target === '' ||
-	// 		form.deadline === '' ||
-	// 		form.images.length === 0
+	useEffect(() => {
+		const checkFill = () =>
+			form.category === null ||
+			form.title === '' ||
+			form.description === '' ||
+			form.target === '' ||
+			form.deadline === '' ||
+			form.images.length === 0
 
-	// 	setIsDisabled(checkFill())
-	// }, [form])
+		setIsDisabled(checkFill())
+	}, [form])
 
 	// if transactions successful redirect to home
 	useEffect(() => {
@@ -82,7 +84,7 @@ const CreateCampaignPage = () => {
 	}
 
 	// handle category change
-	const handleDropdown = (value: string) => {
+	const handleDropdown = (value: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8) => {
 		setForm((prevForm) => ({ ...prevForm, category: value }))
 	}
 
@@ -104,7 +106,7 @@ const CreateCampaignPage = () => {
 
 		write({
 			args: [
-				// form.category,
+				form.category,
 				form.title,
 				form.description,
 				ipfsLinks,
