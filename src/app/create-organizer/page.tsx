@@ -79,7 +79,7 @@ const CreateOrganizerPage = () => {
 		setIsuploading(true)
 
 		const client = web3StorageClient
-		const cid = await client.put(form.profile)
+		const cid = await client.put([form.profile])
 		// @ts-ignore
 		const ipfsHash = await `https://${cid}.ipfs.dweb.link/${form.profile.name}`
 

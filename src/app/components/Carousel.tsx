@@ -7,6 +7,7 @@ type CarouselProps = {
 }
 
 type ImageContainerProps = {
+	isCurrent: boolean
 	image: string
 }
 
@@ -15,11 +16,13 @@ type IndicatorType = {
 	isCurrent: boolean
 }
 
-const ImageContainer = ({ image }: ImageContainerProps) => (
-	<div className='hidden duration-700 ease-in-out' data-carousel-item>
+const ImageContainer = ({ isCurrent, image }: ImageContainerProps) => (
+	<div
+		className={`${isCurrent ? 'block' : 'hidden'} duration-700 ease-in-out`}
+		data-carousel-item>
 		<Image
 			src={image}
-			className='absolute block w-full -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'
+			className='absolute block h-full object-contain -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2'
 			alt=''
 			width={600}
 			height={400}
@@ -48,8 +51,12 @@ const Carousel = ({ images }: CarouselProps) => {
 			data-carousel='slide'>
 			{/* Carousel wrapper  */}
 			<div className='relative h-56 overflow-hidden rounded-lg md:h-96'>
-				{images.map((image) => (
-					<ImageContainer key={image} image={image} />
+				{images.map((image, idx) => (
+					<ImageContainer
+						key={image}
+						isCurrent={currentSlide == idx}
+						image={image}
+					/>
 				))}
 			</div>
 

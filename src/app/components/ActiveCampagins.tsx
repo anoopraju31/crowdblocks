@@ -1,23 +1,9 @@
-import React from 'react'
+import { crowdBlocksContract } from '@/utils'
 import { CampaignCard } from '.'
-import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { AlchemyProvider } from 'ethers'
-import { ethers } from 'ethers'
-import { contractAddress } from '@/constants'
 
 export const revalidate = 3600
 
 const ActiveCampagins = async () => {
-	const provider = new AlchemyProvider(
-		'sepolia',
-		process.env.NEXT_PUBLIC_ALCHEMY_ID,
-	)
-	const crowdBlocksContract = new ethers.Contract(
-		contractAddress,
-		CrowdFundingABI,
-		provider,
-	)
-
 	const campaigns = await crowdBlocksContract.getAllActiveCampaigns()
 
 	return (
@@ -28,12 +14,13 @@ const ActiveCampagins = async () => {
 					No Active Campaigns available now!{' '}
 				</h1>
 			) : (
-				campaigns.map((campaignId: BigInt) => (
-					<CampaignCard
-						key={Number(campaignId)}
-						campaignId={Number(campaignId)}
-					/>
-				))
+				// campaigns.map((campaignId: BigInt) => (
+				// 	<CampaignCard
+				// 		key={Number(campaignId)}
+				// 		campaignId={Number(campaignId)}
+				// 	/>
+				// ))
+				<></>
 			)}
 		</section>
 	)

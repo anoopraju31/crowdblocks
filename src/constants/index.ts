@@ -29,7 +29,7 @@ export const navlinks = [
 	},
 ]
 
-export const contractAddress = '0x03a1Aa5a31e1578CA0b0c71168c8263667068850'
+export const contractAddress = '0x2595539cF7486290B597d930b1590d15a8Ff4519'
 
 export const status = ['all', 'active', 'closed']
 export const categories = [
