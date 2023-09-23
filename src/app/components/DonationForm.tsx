@@ -17,7 +17,7 @@ const DonationForm = ({ campaignId }: DonationFormType) => {
 	const [isCompleted, setIsCompleted] = useState(false)
 	const [isDisabled, setIsDisabled] = useState(false)
 	const { isConnected } = useAccount()
-	const { isLoading, isSuccess, write } = useContractWrite({
+	const { isLoading, write } = useContractWrite({
 		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'donateToCampaign',
@@ -29,8 +29,6 @@ const DonationForm = ({ campaignId }: DonationFormType) => {
 		functionName: 'campaigns',
 		args: [campaignId],
 		onSuccess(data: CampaignType) {
-			console.log(data)
-
 			if (data !== null) {
 				//  @ts-ignore
 				setIsCompleted(data[7])
