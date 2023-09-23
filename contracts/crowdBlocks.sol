@@ -3,11 +3,23 @@ pragma solidity ^0.8.0;
 
 /**
  * @title CrowdBlocks - A crowdfunding smart contract.
+ * @author Anoop Raju
  * @notice This contract allows users to create crowdfunding campaigns and donate to them.
  */
 contract CrowdBlocks {
     uint public numberOfCampaigns;
     uint public numberOfActiveCampaigns;
+    enum Category {
+        AnimalWelfare,
+        ArtAndScience,
+        Communal,
+        Education,
+        Environment,
+        Healthcare,
+        SocialCauses,
+        Sports,
+        Technology
+    }
 
     struct Organizer {
         address walletAddress;
@@ -31,6 +43,7 @@ contract CrowdBlocks {
         string title;
         string description;
         string[] images;
+        uint category;
         uint startDate;
         uint deadline;
         uint targetAmount;
@@ -60,6 +73,7 @@ contract CrowdBlocks {
     event OrganizerCreated(address walletAddress, string name, string emailId);
     event CampaignCreated(
         uint id,
+        uint category,
         string title,
         address organizer,
         uint target
@@ -83,7 +97,7 @@ contract CrowdBlocks {
     }
 
     modifier onlyActiveCampaign(uint _id) {
-        require(campaigns[_id].isCompleted == false, "Campaign has closed!");
+        require(campaigns[_id].isValid && !campaigns[_id].isCompleted, "Campaign has closed!");
         _;
     }
 
@@ -130,6 +144,7 @@ contract CrowdBlocks {
 
     /**
      * @dev Create a new crowdfunding campaign.
+     * @param _category The category of the campaign.
      * @param _title The title of the campaign.
      * @param _description The description of the campaign.
      * @param _images An array of image URLs related to the campaign.
@@ -144,6 +159,7 @@ contract CrowdBlocks {
      * Emits a `CampaignCreated` event upon successful creation.
      */
     function createCampaign(
+        uint _category,
         string memory _title,
         string memory _description,
         string[] memory _images,
@@ -153,6 +169,7 @@ contract CrowdBlocks {
         Campaign storage newCampaign = campaigns[++numberOfCampaigns];
 
         newCampaign.organizer = msg.sender;
+        newCampaign.category = _category;
         newCampaign.title = _title;
         newCampaign.description = _description;
         newCampaign.images = _images;
@@ -164,7 +181,7 @@ contract CrowdBlocks {
         organizers[msg.sender].campaigns.push(numberOfCampaigns);
         numberOfActiveCampaigns++;
 
-        emit CampaignCreated(numberOfCampaigns, _title, msg.sender, _target);
+        emit CampaignCreated(numberOfCampaigns, _category, _title, msg.sender, _target);
     }
 
     /**
@@ -367,5 +384,16 @@ contract CrowdBlocks {
      */
     function isOrganizer(address _user) public view returns (bool) {
         return organizers[_user].isValid;
+    }
+
+    /**
+     * @notice Checks if a campaign with the specified ID has completed.
+     * @dev This function can be used to determine if a campaign with the given ID has reached its deadline.
+     * @param _id The ID of the campaign to check.
+     */
+    function checkCampaignCompleted(uint _id) public onlyActiveCampaign(_id) {
+        if (block.timestamp >= campaigns[_id].deadline) {
+            campaignCompleted(_id);
+        }
     }
 }
