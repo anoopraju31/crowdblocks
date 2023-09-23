@@ -4,16 +4,16 @@ import React, { useEffect, useState } from 'react'
 import { useAccount, useContractWrite } from 'wagmi'
 import { redirect } from 'next/navigation'
 import ReactLoading from 'react-loading'
-import { Button, FormField } from '../components'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { contractAddress } from '@/constants'
+import { contractAddress, web3StorageClient } from '@/constants'
 import { useOrganizer } from '../hooks'
+import { Button, FormField } from '../components'
 
 type Form = {
 	name: string
 	email: string
 	contact: string
-	profile: string
+	profile: File | null
 	phone: string
 }
 
@@ -22,57 +22,83 @@ const CreateOrganizerPage = () => {
 		name: '',
 		email: '',
 		contact: '',
-		profile: '',
+		profile: null,
 		phone: '',
 	})
 	const [isDisabled, setIsDisabled] = useState(false)
+	const [isUploading, setIsuploading] = useState(false)
 	const { isConnected } = useAccount()
 	const [isOrganizer] = useOrganizer()
 	const { isLoading, isSuccess, write } = useContractWrite({
 		address: contractAddress,
 		abi: CrowdFundingABI,
 		functionName: 'createOrganizer',
+		onSettled(data, error) {
+			setIsuploading(false)
+			console.log('Settled', { data, error })
+		},
 	})
 
+	// prevent unauthorized access
 	useEffect(() => {
 		if (!isConnected || isOrganizer) {
 			redirect('/')
 		}
 	}, [isConnected, isOrganizer])
 
+	// check if all fields are filled or not
 	useEffect(() => {
 		const checkFill = () =>
 			form.name === '' ||
 			form.email === '' ||
 			form.contact === '' ||
-			form.profile === '' ||
+			form.profile === null ||
 			form.phone === ''
 
 		setIsDisabled(checkFill())
 	}, [form])
 
+	// if transactions successful redirect to home
 	useEffect(() => {
 		if (isSuccess) redirect('/')
 	}, [isSuccess])
 
+	// handle form change
 	const handleFormFieldChange = (
 		fieldName: string,
 		e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>,
 	) => {
-		setForm({ ...form, [fieldName]: e.target.value })
+		if (fieldName === 'profile') {
+			const target = e.target as HTMLInputElement
+			const files = Array.from(target.files as FileList)
+			setForm((prevForm) => ({ ...prevForm, [fieldName]: files[0] }))
+		} else setForm((prevForm) => ({ ...prevForm, [fieldName]: e.target.value }))
 	}
 
-	const handleSubmit = () => {
+	// Submit form data
+	const handleSubmit = async () => {
+		setIsuploading(true)
+
+		const client = web3StorageClient
+		const cid = await client.put(form.profile)
+		// @ts-ignore
+		const ipfsHash = await `https://${cid}.ipfs.dweb.link/${form.profile.name}`
+
+		if (ipfsHash) setIsuploading(false)
+
 		write({
-			args: [form.name, form.contact, form.email, form.profile, form.phone],
+			args: [form.name, form.contact, form.email, ipfsHash, form.phone],
 		})
 	}
 
 	return (
 		<main className='flex justify-center items-center flex-col pb-20 md:m-10 border-b sm:border-b-0 border-[#3a3a43]'>
-			{isLoading && (
+			{(isLoading || isUploading) && (
 				<div className='w-full h-screen bg-black/40 fixed top-0 left-0 right-0 flex justify-center items-center'>
-					<p className='text-white text-2xl'> Loading </p>
+					<p className='text-white text-2xl'>
+						{' '}
+						{isUploading ? 'Uploading images to ipfs' : 'Loading'}
+					</p>
 					<ReactLoading type='bubbles' color='#fff' />
 				</div>
 			)}
@@ -130,8 +156,7 @@ const CreateOrganizerPage = () => {
 						<FormField
 							labelName='Profile Picture *'
 							placeholder='Place your profile image'
-							inputType='url'
-							value={form.profile}
+							inputType='file'
 							handleChange={(e) => handleFormFieldChange('profile', e)}
 						/>
 					</div>

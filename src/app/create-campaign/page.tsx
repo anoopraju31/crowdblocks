@@ -1,13 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
-import Image from 'next/image'
 import { useAccount, useContractWrite } from 'wagmi'
-//@ts-ignore
-import { Web3Storage } from 'web3.storage'
 import ReactLoading from 'react-loading'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
-import { category, contractAddress } from '@/constants'
+import { category, contractAddress, web3StorageClient } from '@/constants'
 import { useOrganizer } from '../hooks'
 import { Button, Dropdown, FormField } from '../components'
 
@@ -31,7 +28,6 @@ const CreateCampaignPage = () => {
 	})
 	const [isDisabled, setIsDisabled] = useState(false)
 	const [isUploading, setIsuploading] = useState(false)
-	const [images, setImages] = useState<string[]>([])
 	const { isConnected } = useAccount()
 	const [isOrganizer] = useOrganizer()
 	const { isLoading, isSuccess, write } = useContractWrite({
@@ -94,9 +90,7 @@ const CreateCampaignPage = () => {
 		const date = new Date(form.deadline)
 		const timestamp = date.getTime() / 1000
 
-		const client = new Web3Storage({
-			token: process.env.NEXT_PUBLIC_WEB3_STORAGE_API_KEY,
-		})
+		const client = web3StorageClient
 		const cid = await client.put(form.images)
 		const ipfsLinks = await form.images.map(
 			(image) => `https://${cid}.ipfs.dweb.link/${image.name}`,
@@ -204,11 +198,6 @@ const CreateCampaignPage = () => {
 					/>
 				</div>
 			</form>
-
-			{images.length &&
-				images.map((image) => (
-					<Image key={image} src={image} alt='' width={300} height={200} />
-				))}
 		</main>
 	)
 }

@@ -2,6 +2,8 @@ import { MdCreate } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 import { IoPersonCircleOutline } from 'react-icons/io5'
 import type { IconType } from 'react-icons'
+//@ts-ignore
+import { Web3Storage } from 'web3.storage'
 
 export interface NavLinkType {
 	name: string
@@ -54,3 +56,7 @@ export const category = [
 	'Sports',
 	'Technology',
 ]
+
+export const web3StorageClient = new Web3Storage({
+	token: process.env.NEXT_PUBLIC_WEB3_STORAGE_API_KEY,
+})
