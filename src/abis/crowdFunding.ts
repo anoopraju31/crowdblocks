@@ -47,6 +47,12 @@ export const CrowdFundingABI = [
 			},
 			{
 				indexed: false,
+				internalType: 'uint256',
+				name: 'category',
+				type: 'uint256',
+			},
+			{
+				indexed: false,
 				internalType: 'string',
 				name: 'title',
 				type: 'string',
@@ -138,6 +144,11 @@ export const CrowdFundingABI = [
 			},
 			{
 				internalType: 'uint256',
+				name: 'category',
+				type: 'uint256',
+			},
+			{
+				internalType: 'uint256',
 				name: 'startDate',
 				type: 'uint256',
 			},
@@ -172,6 +183,24 @@ export const CrowdFundingABI = [
 	},
 	{
 		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_id',
+				type: 'uint256',
+			},
+		],
+		name: 'checkCampaignCompleted',
+		outputs: [],
+		stateMutability: 'nonpayable',
+		type: 'function',
+	},
+	{
+		inputs: [
+			{
+				internalType: 'uint256',
+				name: '_category',
+				type: 'uint256',
+			},
 			{
 				internalType: 'string',
 				name: '_title',
