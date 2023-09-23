@@ -11,6 +11,11 @@ export async function GET(
 	let contributions = await crowdBlocksContract.getCampaignContributions(
 		campaignId,
 	)
+	let numberofCampaignsOrganized = Number(
+		await crowdBlocksContract.getIdofCampaignsOrganizedByOrganizer(
+			await campaign[0],
+		),
+	)
 
 	campaign = campaign.map((item: any) =>
 		typeof item === 'bigint' ? Number(item) : item,
@@ -21,5 +26,6 @@ export async function GET(
 		campaign,
 		campaignImage,
 		contributions,
+		numberofCampaignsOrganized,
 	})
 }

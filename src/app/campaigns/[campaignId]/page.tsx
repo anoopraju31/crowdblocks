@@ -10,7 +10,8 @@ type PageProps = {
 
 const CompaignDetailsPage = async ({ params }: PageProps) => {
 	const { campaignId } = params
-	const { campaign, campaignImage } = await getCampaign(campaignId)
+	const { campaign, campaignImage, contributions, numberofCampaignsOrganized } =
+		await getCampaign(campaignId)
 
 	return (
 		<main className='w-full min-h-screen pt-10 pb-20 bg-[#13131a]'>
@@ -83,7 +84,7 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 								</h4>
 								{/* Number of compaigns */}
 								<p className='mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]'>
-									10 Campaigns
+									{numberofCampaignsOrganized} Campaigns
 								</p>
 							</div>
 						</div>

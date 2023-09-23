@@ -14,6 +14,7 @@ type ImageContainerProps = {
 type IndicatorType = {
 	id: number
 	isCurrent: boolean
+	handleChange: () => void
 }
 
 const ImageContainer = ({ isCurrent, image }: ImageContainerProps) => (
@@ -30,14 +31,15 @@ const ImageContainer = ({ isCurrent, image }: ImageContainerProps) => (
 	</div>
 )
 
-const Indicator = ({ id, isCurrent }: IndicatorType) => (
+const Indicator = ({ id, isCurrent, handleChange }: IndicatorType) => (
 	<button
 		key={id}
 		type='button'
 		className={`w-3 h-3 rounded-full ${
 			isCurrent ? 'bg-gray-700' : 'bg-gray-400'
 		}`}
-		aria-current='true'
+		aria-current={isCurrent}
+		onClick={handleChange}
 		aria-label={`Slide ${id}`}
 		data-carousel-slide-to={id}></button>
 )
@@ -64,7 +66,12 @@ const Carousel = ({ images }: CarouselProps) => {
 			{images.length > 1 && (
 				<div className='absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2'>
 					{images.map((image, idx) => (
-						<Indicator key={image} id={idx} isCurrent={currentSlide == idx} />
+						<Indicator
+							key={image}
+							id={idx}
+							isCurrent={currentSlide == idx}
+							handleChange={() => setCurrentSlide(idx)}
+						/>
 					))}
 				</div>
 			)}
