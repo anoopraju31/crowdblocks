@@ -14,13 +14,12 @@ const ActiveCampagins = async () => {
 					No Active Campaigns available now!{' '}
 				</h1>
 			) : (
-				// campaigns.map((campaignId: BigInt) => (
-				// 	<CampaignCard
-				// 		key={Number(campaignId)}
-				// 		campaignId={Number(campaignId)}
-				// 	/>
-				// ))
-				<></>
+				campaigns.map((campaignId: BigInt) => (
+					<CampaignCard
+						key={Number(campaignId)}
+						campaignId={Number(campaignId)}
+					/>
+				))
 			)}
 		</section>
 	)

@@ -24,7 +24,7 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 						<div
 							className='absolute h-full bg-green-500 rounded'
 							style={{
-								width: `${(campaign[4] / campaign[5]) * 100}%`,
+								width: `${(campaign[7] / campaign[6]) * 100}%`,
 								maxWidth: '100%',
 							}}></div>
 					</div>
@@ -32,9 +32,9 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 
 				{/* Stats */}
 				<CampaignStats
-					collectedAmount={campaign[6] / 10 ** 18}
-					targetAmount={campaign[5] / 10 ** 18}
-					numberOfDaysLeft={getNumberOfDaysLeft(Number(campaign[4]))}
+					collectedAmount={campaign[7] / 10 ** 18}
+					targetAmount={campaign[6] / 10 ** 18}
+					numberOfDaysLeft={getNumberOfDaysLeft(Number(campaign[5]))}
 					campaignId={Number(campaignId)}
 				/>
 			</div>

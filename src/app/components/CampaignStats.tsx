@@ -14,6 +14,12 @@ type CampaignStatsType = {
 	campaignId: number
 }
 
+type ContributionsType = {
+	address: string
+	donation: bigint
+	timestamp: bigint
+}
+
 const CampaignStats = ({
 	targetAmount,
 	collectedAmount,
@@ -23,6 +29,7 @@ const CampaignStats = ({
 	const [target, setTarget] = useState(targetAmount)
 	const [collected, setCollected] = useState(collectedAmount)
 	const [daysLeft, setDaysLeft] = useState(numberOfDaysLeft)
+	const [backers, setBackers] = useState<number>(0)
 
 	useContractRead({
 		address: contractAddress,
@@ -32,20 +39,33 @@ const CampaignStats = ({
 		onSuccess(data: CampaignType) {
 			if (data !== null) {
 				//  @ts-ignore
-				setTarget(Number(data[5]) / 10 ** 18)
+				setTarget(Number(data[6]) / 10 ** 18)
 				//  @ts-ignore
-				setCollected(Number(data[6]) / 10 ** 18)
+				setCollected(Number(data[7]) / 10 ** 18)
 				//  @ts-ignore
-				setDaysLeft(getNumberOfDaysLeft(Number(data[4])))
+				setDaysLeft(getNumberOfDaysLeft(Number(data[5])))
 			}
 		},
 		watch: true,
 	})
+
+	useContractRead({
+		address: contractAddress,
+		abi: CrowdFundingABI,
+		functionName: 'getCampaignContributions',
+		args: [campaignId],
+		onSuccess(data: ContributionsType[]) {
+			// @ts-ignore
+			setBackers(data ? data.length : 0)
+		},
+		watch: true,
+	})
+
 	return (
 		<div className='flex md:w-[300px] w-full flex-col justify-between gap-[30px]'>
 			<StatBox title='Days Left' value={daysLeft} />
 			<StatBox title={`Raise of ${target} ETH`} value={collected} />
-			<StatBox title='Total Backers' value={13} />
+			<StatBox title='Total Backers' value={backers} />
 		</div>
 	)
 }
