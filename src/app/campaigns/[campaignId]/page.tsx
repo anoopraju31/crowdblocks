@@ -1,6 +1,7 @@
 import React from 'react'
 import { CampaignStats, Carousel, DonationForm } from '../../components'
 import { crowdBlocksContract, getCampaign, getNumberOfDaysLeft } from '@/utils'
+import DonationList from '@/app/components/DonationList'
 
 type PageProps = {
 	params: {
@@ -40,7 +41,7 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 				/>
 			</div>
 
-			<div className='mt-[60px] flex lg:flex-row flex-col gap-10'>
+			<div className='mt-[60px] flex lg:flex-row flex-col gap-10 relative'>
 				<div className='flex-[2] flex flex-col gap-[40px]'>
 					<div>
 						{/* Creator */}
@@ -103,54 +104,36 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 						</div>
 					</div>
 
+					{/* Funding form */}
+					<div className='flex-1 lg:hidden block'>
+						<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
+							Fund
+						</h4>
+
+						<DonationForm campaignId={Number(campaignId)} />
+					</div>
+
 					{/* Donations List */}
 					<div>
 						<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
 							Donators
 						</h4>
 
-						<div className='mt-[20px] flex flex-col gap-4'>
-							<div className='flex justify-between items-center gap-4'>
-								<p className='font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll'>
-									0x19EA0f475B7653Ec108B62D363bcD2dAC3e937e6
-								</p>
-								<p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-ll'>
-									1eth
-								</p>
-							</div>
-
-							<div className='flex justify-between items-center gap-4'>
-								<p className='font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll'>
-									0x19EA0f475B7653Ec108B62D363bcD2dAC3e937e6
-								</p>
-								<p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-ll'>
-									1eth
+						{contributions.length > 0 ? (
+							<DonationList />
+						) : (
+							<div className='flex justify-center items-center'>
+								<p className='text-lg italic text-white'>
+									{' '}
+									No Contributions so far!{' '}
 								</p>
 							</div>
-
-							<div className='flex justify-between items-center gap-4'>
-								<p className='font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll'>
-									0x19EA0f475B7653Ec108B62D363bcD2dAC3e937e6
-								</p>
-								<p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-ll'>
-									1eth
-								</p>
-							</div>
-
-							<div className='flex justify-between items-center gap-4'>
-								<p className='font-epilogue font-normal text-[16px] text-[#b2b3bd] leading-[26px] break-ll'>
-									0x19EA0f475B7653Ec108B62D363bcD2dAC3e937e6
-								</p>
-								<p className='font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] break-ll'>
-									1eth
-								</p>
-							</div>
-						</div>
+						)}
 					</div>
 				</div>
 
 				{/* Funding form */}
-				<div className='flex-1'>
+				<div className='flex-1 hidden lg:block sticky top-4 h-fit'>
 					<h4 className='font-epilogue font-semibold text-[18px] text-white uppercase'>
 						Fund
 					</h4>
