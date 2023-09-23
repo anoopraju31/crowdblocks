@@ -2,6 +2,7 @@ import React from 'react'
 import { CampaignStats, Carousel, DonationForm } from '../../components'
 import { crowdBlocksContract, getCampaign, getNumberOfDaysLeft } from '@/utils'
 import DonationList from '@/app/components/DonationList'
+import Image from 'next/image'
 
 type PageProps = {
 	params: {
@@ -11,8 +12,13 @@ type PageProps = {
 
 const CompaignDetailsPage = async ({ params }: PageProps) => {
 	const { campaignId } = params
-	const { campaign, campaignImage, contributions, numberofCampaignsOrganized } =
-		await getCampaign(campaignId)
+	const {
+		campaign,
+		campaignImage,
+		contributions,
+		numberofCampaignsOrganized,
+		profile,
+	} = await getCampaign(campaignId)
 
 	return (
 		<main className='w-full min-h-screen pt-10 pb-20 bg-[#13131a]'>
@@ -50,33 +56,15 @@ const CompaignDetailsPage = async ({ params }: PageProps) => {
 						</h4>
 
 						<div className='mt-[20px] flex flex-row items-center flex-wrap gap-[14px]'>
-							<div className='w-[52px] h-[52px] flex items-center justify-center rounded-full bg-[#2c2f32] cursor-pointer'>
+							<div className='w-[40px] h-[40px] flex justify-center items-center cursor-pointer bg-[#13131a]'>
 								{/* profile image */}
-								<div className='rounded-full overflow-hidden w-6 h-6 inline-block bg-[rgb(35, 143, 225)]'>
-									<svg x='0' y='0' width='24' height='24'>
-										<rect
-											x='0'
-											y='0'
-											width='24'
-											height='24'
-											transform='translate(6.525467147921928 -0.07667628804068606) rotate(491.2 12 12)'
-											fill='#018E74'></rect>
-										<rect
-											x='0'
-											y='0'
-											width='24'
-											height='24'
-											transform='translate(-9.540876339975153 2.016251393825418) rotate(174.8 12 12)'
-											fill='#18CAF2'></rect>
-										<rect
-											x='0'
-											y='0'
-											width='24'
-											height='24'
-											transform='translate(-6.575909483438352 19.994128215112603) rotate(223.8 12 12)'
-											fill='#FA3E00'></rect>
-									</svg>
-								</div>
+								<Image
+									src={profile}
+									className='flex-1 rounded-full w-full h-full object-fill'
+									alt='organizer profile'
+									width={50}
+									height={50}
+								/>
 							</div>
 							<div>
 								{/* Creator Address */}
