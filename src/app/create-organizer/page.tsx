@@ -3,11 +3,10 @@
 import React, { useEffect, useState } from 'react'
 import { useAccount, useContractWrite } from 'wagmi'
 import { redirect } from 'next/navigation'
-import ReactLoading from 'react-loading'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { contractAddress, web3StorageClient } from '@/constants'
 import { useOrganizer } from '../hooks'
-import { Button, FormField } from '../components'
+import { Button, FormField, Loading } from '../components'
 
 type Form = {
 	name: string
@@ -93,15 +92,9 @@ const CreateOrganizerPage = () => {
 
 	return (
 		<main className='flex justify-center items-center flex-col pb-20 md:m-10 border-b sm:border-b-0 border-[#3a3a43]'>
-			{(isLoading || isUploading) && (
-				<div className='w-full h-screen bg-black/40 fixed top-0 left-0 right-0 flex justify-center items-center'>
-					<p className='text-white text-2xl'>
-						{' '}
-						{isUploading ? 'Uploading images to ipfs' : 'Loading'}
-					</p>
-					<ReactLoading type='bubbles' color='#fff' />
-				</div>
-			)}
+			{/* Loading */}
+			{(isLoading || isUploading) && <Loading isUploading={isUploading} />}
+
 			{/* Heading */}
 			<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]'>
 				<h1 className='font-epilogue font-bold sm:text-[25px] text-[18px] leading-[38px] text-white'>

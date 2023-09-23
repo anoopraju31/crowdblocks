@@ -2,11 +2,10 @@
 import React, { useEffect, useState } from 'react'
 import { redirect } from 'next/navigation'
 import { useAccount, useContractWrite } from 'wagmi'
-import ReactLoading from 'react-loading'
 import { CrowdFundingABI } from '@/abis/crowdFunding'
 import { category, contractAddress, web3StorageClient } from '@/constants'
 import { useOrganizer } from '../hooks'
-import { Button, Dropdown, FormField } from '../components'
+import { Button, Dropdown, FormField, Loading } from '../components'
 
 type CampaignForm = {
 	category: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | null
@@ -112,15 +111,8 @@ const CreateCampaignPage = () => {
 
 	return (
 		<main className='flex justify-center items-center flex-col pb-20 md:m-10 border-b sm:border-b-0 border-[#3a3a43]'>
-			{(isLoading || isUploading) && (
-				<div className='w-full h-screen bg-black/40 fixed top-0 left-0 right-0 flex justify-center items-center'>
-					<p className='text-white text-2xl'>
-						{' '}
-						{isUploading ? 'Uploading images to ipfs' : 'Loading'}
-					</p>
-					<ReactLoading type='bubbles' color='#fff' />
-				</div>
-			)}
+			{/* Loading */}
+			{(isLoading || isUploading) && <Loading isUploading={isUploading} />}
 
 			{/* Heading */}
 			<div className='flex justify-center items-center p-[16px] sm:min-w-[380px] rounded-[10px]'>
